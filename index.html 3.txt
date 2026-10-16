@@ -1,0 +1,387 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Kiddies Tutor - 25 Questions</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
+body{background:linear-gradient(135deg,#6a11cb 0%,#2575fc 100%);min-height:100vh;color:#333}
+.container{max-width:900px;margin:0 auto;padding:20px}
+.card{background:white;border-radius:20px;padding:25px;margin:15px 0;box-shadow:0 10px 30px rgba(0,0,0,0.2)}
+h1{text-align:center;color:white;font-size:2.2em;margin:20px 0;text-shadow:2px 2px 4px rgba(0,0,0,0.3)}
+h2{color:#6a11cb;margin-bottom:15px}
+.btn{background:linear-gradient(135deg,#6a11cb,#2575fc);color:white;border:none;padding:12px 25px;border-radius:25px;font-size:16px;cursor:pointer;margin:5px;transition:0.3s;font-weight:bold}
+.btn:hover{transform:scale(1.05)}
+.subject-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px;margin:20px 0}
+.subject-card{background:linear-gradient(135deg,#ff9a9e,#fecfef);padding:20px;border-radius:15px;text-align:center;cursor:pointer;transition:0.3s;border:3px solid transparent}
+.subject-card:hover{transform:translateY(-5px);border-color:#6a11cb}
+.subject-card.done{background:linear-gradient(135deg,#a8edea,#fed6e3);border-color:#00c851}
+.progress-bar{background:#e0e0e0;height:12px;border-radius:10px;overflow:hidden;margin:10px 0}
+.progress-fill{background:linear-gradient(90deg,#00c851,#00ff88);height:100%;transition:width 0.5s}
+.question-card{background:#f8f9ff;border-left:5px solid #6a11cb;padding:20px;border-radius:10px;margin:15px 0}
+.option{padding:12px 15px;margin:8px 0;background:white;border:2px solid #e0e0e0;border-radius:10px;cursor:pointer;transition:0.2s}
+.option:hover{border-color:#6a11cb;background:#f0f0ff}
+.option.selected{border-color:#6a11cb;background:#6a11cb;color:white}
+.bravo{font-size:3em;text-align:center;animation:bounce 1s infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.certificate{border:5px dashed gold;background:linear-gradient(135deg,#fff9c4,#ffeb3b);padding:30px;border-radius:20px;text-align:center;margin:20px 0}
+.score-circle{width:120px;height:120px;border-radius:50%;background:conic-gradient(#00c851 var(--pct),#e0e0e0 0);display:flex;align-items:center;justify-content:center;margin:20px auto;font-size:2em;font-weight:bold}
+input{width:100%;padding:12px;border:2px solid #e0e0e0;border-radius:10px;font-size:16px;margin:10px 0}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center}
+.stat-box{background:linear-gradient(135deg,#e0c3fc,#8ec5fc);padding:15px;border-radius:15px}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="container">
+<h1> Smart Kiddies Tutor </h1>
+<div id="loginPage" class="card">
+<h2>Welcome Smart Kid! </h2>
+<p>Enter your name to start learning</p>
+<input type="text" id="userName" placeholder="Your Name e.g. Happiness">
+<button class="btn" onclick="login()">Start Learning </button>
+</div>
+<div id="dashboard" class="hidden">
+<div class="card">
+<h2 id="welcomeText"></h2>
+<div class="stats">
+<div class="stat-box"><h3 id="totalScore">0</h3><p>Total Score</p></div>
+<div class="stat-box"><h3 id="completedCount">0</h3><p>Subjects Done</p></div>
+<div class="stat-box"><h3 id="avgScore">0%</h3><p>Average</p></div>
+</div>
+</div>
+<div class="card">
+<h2> Choose Subject - 25 Questions Each</h2>
+<div class="subject-grid" id="subjectGrid"></div>
+</div>
+<div class="card">
+<h2> Learning Progress</h2>
+<div id="progressList"></div>
+</div>
+</div>
+<div id="quizPage" class="hidden">
+<div class="card">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<button class="btn" onclick="backToDash()"> Back</button>
+<span id="qCounter">Question 1/25</span>
+<span id="qSubject"></span>
+</div>
+<div class="progress-bar"><div class="progress-fill" id="quizProgress"></div></div>
+<div id="questionArea"></div>
+<button class="btn" id="nextBtn" onclick="nextQ()" disabled>Next </button>
+</div>
+</div>
+<div id="resultPage" class="hidden">
+<div class="card" style="text-align:center">
+<div class="bravo"> Bravo! You did it! </div>
+<h2 id="resultTitle" style="margin:15px 0"></h2>
+<div class="score-circle" id="scoreCircle">0%</div>
+<p id="resultMsg" style="font-size:1.2em;margin:15px 0"></p>
+<div class="certificate" id="certBox">
+<h2> Certificate of Achievement </h2>
+<h3 id="certName"></h3>
+<p>Has successfully completed</p>
+<h3 id="certSubject"></h3>
+<p>with score</p>
+<h1 id="certScore" style="color:#6a11cb"></h1>
+<p id="certDate"></p>
+<p style="margin-top:10px"> Keep Shining, Smart Kid! </p>
+</div>
+<button class="btn" onclick="continueProgress()" style="font-size:18px;padding:15px 30px"> Continue - See My Progress</button>
+<button class="btn" onclick="retake()"> Retake Subject</button>
+</div>
+</div>
+</div>
+<script>
+const BANKS = {
+"English": [
+{q:"What is the opposite of 'Happy'?",o:["Sad","Big","Fast","Hot"],a:0},
+{q:"Choose the noun: The ___ is barking",o:["quickly","dog","loudly","very"],a:1},
+{q:"Which word is correctly spelled?",o:["Beutiful","Beautiful","Beautifull","Beatiful"],a:1},
+{q:"What is the plural of 'Child'?",o:["Childs","Children","Childes","Childrens"],a:1},
+{q:"Pick the adjective: The ___ flower",o:["Red","Run","Quickly","And"],a:0},
+{q:"'He ___ to school yesterday' Choose correct verb",o:["go","goes","went","going"],a:2},
+{q:"Which is a vowel?",o:["B","C","A","D"],a:2},
+{q:"Synonym of 'Big' is?",o:["Small","Huge","Tiny","Little"],a:1},
+{q:"How many letters in English alphabet?",o:["24","25","26","27"],a:2},
+{q:"'She is ___ than me' correct word",o:["tall","taller","tallest","more tall"],a:1},
+{q:"Which is a pronoun?",o:["He","Table","Run","Happy"],a:0},
+{q:"Past tense of 'Eat'?",o:["Eated","Ate","Eating","Eats"],a:1},
+{q:"Choose the sentence with correct punctuation",o:["what is your name","What is your name?","What is your name","what is your name?"],a:1},
+{q:"Antonym of 'Hot'?",o:["Warm","Cold","Heat","Burning"],a:1},
+{q:"Which word is a verb?",o:["House","Jump","Blue","Quick"],a:1},
+{q:"'The cat ___ on the mat' correct",o:["is sitting","are sitting","sitting","sits"],a:0},
+{q:"What is the superlative of 'Good'?",o:["Better","Best","Goodest","More good"],a:1},
+{q:"Identify the conjunction: I like tea ___ coffee",o:["and","big","run","she"],a:0},
+{q:"Which is correct? 'There ___ many books'",o:["is","are","was","be"],a:1},
+{q:"'I have ___ apple' article",o:["a","an","the","no"],a:1},
+{q:"What type of word is 'Quickly'?",o:["Noun","Verb","Adverb","Adjective"],a:2},
+{q:"Comparative of 'Fast'?",o:["Faster","Fastest","More fast","Fastly"],a:0},
+{q:"'They ___ playing football now'",o:["is","are","am","was"],a:1},
+{q:"Choose the correct spelling",o:["Recieve","Receive","Receeve","Recive"],a:1},
+{q:"Opposite of 'Begin'?",o:["Start","End","Open","Continue"],a:1},
+{q:"Which is an interjection?",o:["Wow!","Table","Go","He"],a:0},
+{q:"'This book is ___' possessive",o:["mine","me","I","my"],a:0},
+{q:"Plural of 'Mouse'?",o:["Mouses","Mice","Mouse","Mices"],a:1},
+{q:"Which sentence is in future tense?",o:["I will go","I went","I go","I am going"],a:0},
+{q:"'She sings ___' adverb",o:["beautiful","beautifully","beauty","more beautiful"],a:1},
+{q:"Synonym of 'Happy'?",o:["Sad","Joyful","Angry","Tired"],a:1},
+{q:"What is a collective noun for 'birds'?",o:["Flock","Pack","Herd","Swarm"],a:0},
+{q:"'Neither of them ___ here'",o:["are","is","were","be"],a:1},
+{q:"Which is a preposition?",o:["Under","Run","Happy","He"],a:0},
+{q:"Past participle of 'Write'?",o:["Wrote","Written","Writing","Writes"],a:1}
+],
+"Mathematics": [
+{q:"What is 12 x 8 ?",o:["96","86","108","88"],a:0},
+{q:"25 + 37 = ?",o:["52","62","72","60"],a:1},
+{q:"What is 50% of 80?",o:["30","40","50","20"],a:1},
+{q:"15 x 6 = ?",o:["80","90","70","100"],a:1},
+{q:"100 - 45 = ?",o:["45","55","65","50"],a:1},
+{q:"What is square root of 64?",o:["6","7","8","9"],a:2},
+{q:"12 / 3 + 5 = ?",o:["9","11","8","7"],a:0},
+{q:"What is 7 x 7 ?",o:["42","49","56","63"],a:1},
+{q:"A triangle has ___ sides",o:["2","3","4","5"],a:1},
+{q:"What is 20% of 100?",o:["10","20","30","40"],a:1},
+{q:"9 x 9 = ?",o:["72","81","90","99"],a:1},
+{q:"What is 144 / 12 ?",o:["10","11","12","13"],a:2},
+{q:"5 squared = ?",o:["10","15","25","20"],a:2},
+{q:"What is perimeter of square side 5?",o:["10","15","20","25"],a:2},
+{q:"1/2 + 1/2 = ?",o:["1","2","1/2","1/4"],a:0},
+{q:"What is 18 x 3 ?",o:["48","54","60","64"],a:1},
+{q:"What is next: 2,4,6,8,__",o:["9","10","11","12"],a:1},
+
+{q:"What is 1000 - 250 ?",o:["650","750","850","700"],a:1},
+{q:"How many minutes in 2 hours?",o:["60","90","120","180"],a:2},
+{q:"What is 15% of 200?",o:["20","25","30","35"],a:2},
+{q:"What is 11 x 11 ?",o:["111","121","131","110"],a:1},
+{q:"What is value of pi approx?",o:["3.12","3.14","3.16","3.18"],a:1},
+{q:"What is 48 / 6 ?",o:["6","7","8","9"],a:2},
+{q:"What is area of rectangle 6x4?",o:["10","20","24","26"],a:2},
+{q:"What is 3 cubed ?",o:["9","18","27","30"],a:2},
+{q:"What is 75 / 5 ?",o:["10","15","20","12"],a:1},
+{q:"Even number among: 11,13,16,19?",o:["11","13","16","19"],a:2},
+{q:"What is 90 - 37 ?",o:["43","53","63","57"],a:1},
+{q:"What is 6 x 12 ?",o:["62","72","82","92"],a:1},
+{q:"What is 1/4 of 100?",o:["20","25","30","40"],a:1},
+{q:"What is LCM of 2 and 3?",o:["5","6","12","3"],a:1},
+{q:"What is 13 x 5 ?",o:["55","65","75","60"],a:1},
+{q:"What is 200 + 150 + 50 ?",o:["300","350","400","450"],a:2},
+{q:"What is 10% of 250?",o:["20","25","30","15"],a:1},
+{q:"Circle has how many sides?",o:["0","1","2","infinite"],a:0}
+],
+"Science": [
+{q:"What planet do we live on?",o:["Mars","Earth","Venus","Jupiter"],a:1},
+{q:"What do plants need to make food?",o:["Sunlight","Moonlight","Darkness","Ice"],a:0},
+{q:"How many legs does a spider have?",o:["6","8","10","4"],a:1},
+{q:"What is H2O?",o:["Salt","Water","Sugar","Oxygen"],a:1},
+{q:"Which gas do we breathe in?",o:["Carbon dioxide","Oxygen","Nitrogen","Hydrogen"],a:1},
+{q:"What is the largest organ in human body?",o:["Heart","Skin","Brain","Liver"],a:1},
+{q:"How many bones in adult human?",o:["106","206","306","406"],a:1},
+{q:"What force pulls things down?",o:["Gravity","Magnetism","Friction","Wind"],a:0},
+{q:"Which animal lays eggs?",o:["Dog","Cat","Chicken","Cow"],a:2},
+{q:"What part of plant makes food?",o:["Root","Leaf","Flower","Stem"],a:1},
+{q:"What is the sun?",o:["Planet","Star","Moon","Comet"],a:1},
+{q:"How many chambers in human heart?",o:["2","3","4","5"],a:2},
+{q:"Which is not a mammal?",o:["Whale","Bat","Fish","Human"],a:2},
+{q:"What do bees collect?",o:["Water","Nectar","Sand","Stones"],a:1},
+{q:"How many teeth adult human have?",o:["28","30","32","34"],a:2},
+{q:"What is boiling point of water?",o:["90C","100C","110C","120C"],a:1},
+{q:"Which planet is called Red Planet?",o:["Venus","Mars","Jupiter","Saturn"],a:1},
+{q:"What does a thermometer measure?",o:["Weight","Temperature","Height","Time"],a:1},
+{q:"How many senses do humans have?",o:["3","4","5","6"],a:2},
+{q:"What is the hardest natural substance?",o:["Gold","Iron","Diamond","Silver"],a:2},
+{q:"Which blood type is universal donor?",o:["A","B","AB","O"],a:3},
+{q:"What is the center of atom?",o:["Electron","Nucleus","Proton","Neutron"],a:1},
+{q:"How long does Earth take to orbit sun?",o:["365 days","30 days","24 hours","7 days"],a:0},
+{q:"What part of brain controls balance?",o:["Cerebrum","Cerebellum","Brain stem","Spinal cord"],a:1},
+{q:"Which vitamin from sunlight?",o:["Vitamin A","Vitamin B","Vitamin C","Vitamin D"],a:3},
+{q:"What is chemical symbol for Gold?",o:["Go","Au","Ag","Gd"],a:1},
+{q:"How many planets in solar system?",o:["7","8","9","10"],a:1},
+{q:"What do carnivores eat?",o:["Plants","Meat","Both","Nothing"],a:1},
+{q:"Which is renewable energy?",o:["Coal","Solar","Petrol","Gas"],a:1},
+{q:"What is freezing point of water?",o:["0C","10C","100C","-10C"],a:0},
+{q:"Which animal is cold-blooded?",o:["Dog","Lizard","Bird","Cat"],a:1},
+{q:"What is the largest planet?",o:["Earth","Jupiter","Mars","Venus"],a:1},
+{q:"How many lungs humans have?",o:["1","2","3","4"],a:1},
+{q:"What causes day and night?",o:["Earth rotation","Earth revolution","Moon rotation","Sun movement"],a:0},
+{q:"Which metal is liquid at room temp?",o:["Iron","Mercury","Gold","Silver"],a:1}
+],
+"General Knowledge": [
+{q:"Capital of Nigeria?",o:["Lagos","Abuja","Kano","Ibadan"],a:1},
+{q:"How many continents?",o:["5","6","7","8"],a:2},
+{q:"Largest ocean?",o:["Atlantic","Indian","Pacific","Arctic"],a:2},
+{q:"Who invented light bulb?",o:["Edison","Newton","Einstein","Tesla"],a:0},
+{q:"How many days in a week?",o:["5","6","7","8"],a:2},
+{q:"Fastest land animal?",o:["Lion","Cheetah","Tiger","Leopard"],a:1},
+{q:"Largest country by area?",o:["China","USA","Russia","Canada"],a:2},
+{q:"How many colors in rainbow?",o:["5","6","7","8"],a:2},
+{q:"Currency of USA?",o:["Pound","Dollar","Euro","Yen"],a:1},
+{q:"Tallest mountain?",o:["K2","Everest","Kilimanjaro","Fuji"],a:1},
+{q:"How many hours in a day?",o:["12","24","36","48"],a:1},
+{q:"Which is national animal of Nigeria?",o:["Lion","Eagle","Elephant","Horse"],a:1},
+{q:"How many months in a year?",o:["10","11","12","13"],a:2},
+{q:"Longest river in world?",o:["Niger","Nile","Amazon","Congo"],a:1},
+{q:"Smallest country?",o:["Monaco","Vatican","San Marino","Malta"],a:1},
+{q:"Who wrote 'Things Fall Apart'?",o:["Wole Soyinka","Chinua Achebe","Chimamanda","Soyinka"],a:1},
+{q:"How many sides in hexagon?",o:["5","6","7","8"],a:1},
+{q:"Capital of Ghana?",o:["Accra","Kumasi","Lagos","Abidjan"],a:0},
+{q:"Which sport uses bat and ball?",o:["Football","Cricket","Basketball","Tennis"],a:1},
+{q:"How many players in football team?",o:["9","10","11","12"],a:2},
+{q:"Largest desert?",o:["Sahara","Gobi","Kalahari","Arctic"],a:3},
+{q:"Who discovered Nigeria?",o:["Mungo Park","Lugard","Lander","Clapperton"],a:1},
+{q:"What is 2+2x2?",o:["6","8","4","10"],a:0},
+{q:"How many states in Nigeria?",o:["30","32","36","37"],a:2},
+{q:"First man on moon?",o:["Armstrong","Gagarin","Aldrin","Collins"],a:0},
+{q:"Deepest ocean point?",o:["Mariana Trench","Atlantic Trench","Pacific Deep","Indian Deep"],a:0},
+{q:"How many letters alphabet?",o:["24","25","26","27"],a:2},
+{q:"Biggest mammal?",o:["Elephant","Blue Whale","Giraffe","Hippo"],a:1},
+{q:"Year Nigeria got independence?",o:["1960","1963","1970","1959"],a:0},
+{q:"What is capital of USA?",o:["New York","Washington DC","Los Angeles","Chicago"],a:1},
+{q:"How many zeros in 1 million?",o:["5","6","7","8"],a:1},
+{q:"Which continent is Nigeria?",o:["Asia","Africa","Europe","America"],a:1},
+{q:"What color is made mixing red+blue?",o:["Green","Purple","Orange","Yellow"],a:1},
+{q:"How many legs spider?",o:["6","8","10","12"],a:1},
+{q:"Who is first president of Nigeria?",o:["Azikiwe","Balewa","Awolowo","Shagari"],a:0}
+]
+};
+let currentUser = "";
+let progress = JSON.parse(localStorage.getItem('kiddiesProgress25')||'{}');
+let curSubject = "";
+let curQuestions = [];
+let curIndex = 0;
+let score = 0;
+let selected = null;
+function login(){
+let name=document.getElementById('userName').value.trim();
+if(!name){alert('Enter your name');return}
+currentUser=name;
+localStorage.setItem('kiddiesUser',name);
+document.getElementById('loginPage').classList.add('hidden');
+document.getElementById('dashboard').classList.remove('hidden');
+document.getElementById('welcomeText').innerText='Hello, '+name+' - Ready for 25 Questions?';
+renderSubjects();
+renderProgress();
+}
+function renderSubjects(){
+let grid=document.getElementById('subjectGrid');
+grid.innerHTML='';
+Object.keys(BANKS).forEach(sub=>{
+let data=progress[sub]||{done:false,score:0};
+let card=document.createElement('div');
+card.className='subject-card '+(data.done?'done':'');
+card.innerHTML='<h3>'+sub+'</h3><p>'+(data.done?' '+data.score+'% Done':'Start - 25 Qs')+'</p><p style="font-size:12px">'+(data.done?'Completed':'Click to start')+'</p>';
+card.onclick=()=>startQuiz(sub);
+grid.appendChild(card);
+});
+}
+function renderProgress(){
+let list=document.getElementById('progressList');
+list.innerHTML='';
+let total=0,count=0,done=0;
+Object.keys(BANKS).forEach(sub=>{
+let data=progress[sub]||{score:0,done:false,attempts:0};
+total+=data.score; if(data.done) done++;
+count++;
+let div=document.createElement('div');
+div.style.margin='10px 0';
+div.innerHTML='<div style="display:flex;justify-content:space-between"><strong>'+sub+'</strong><span>'+(data.done?data.score+'% DONE':'Not started')+'</span></div><div class="progress-bar"><div class="progress-fill" style="width:'+data.score+'%"></div></div>';
+list.appendChild(div);
+});
+document.getElementById('totalScore').innerText=total;
+document.getElementById('completedCount').innerText=done+'/4';
+document.getElementById('avgScore').innerText=(count?Math.round(total/count):0)+'%';
+}
+function startQuiz(subject){
+curSubject=subject;
+let bank=[...BANKS[subject]];
+for(let i=bank.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[bank[i],bank[j]]=[bank[j],bank[i]]}
+curQuestions=bank.slice(0,25);
+curIndex=0;score=0;
+document.getElementById('dashboard').classList.add('hidden');
+document.getElementById('quizPage').classList.remove('hidden');
+document.getElementById('qSubject').innerText=subject;
+showQuestion();
+}
+function showQuestion(){
+selected=null;
+let q=curQuestions[curIndex];
+document.getElementById('qCounter').innerText='Question '+(curIndex+1)+'/25';
+document.getElementById('quizProgress').style.width=((curIndex)/25*100)+'%';
+document.getElementById('nextBtn').disabled=true;
+let area=document.getElementById('questionArea');
+area.innerHTML='<div class="question-card"><h3>'+(curIndex+1)+'. '+q.q+'</h3><div id="opts"></div></div>';
+let optsDiv=document.getElementById('opts');
+q.o.forEach((opt,i)=>{
+let div=document.createElement('div');
+div.className='option';
+div.innerText=opt;
+div.onclick=()=>selectOpt(i,div);
+optsDiv.appendChild(div);
+});
+}
+function selectOpt(i,el){
+document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
+el.classList.add('selected');
+selected=i;
+document.getElementById('nextBtn').disabled=false;
+}
+function nextQ(){
+if(selected===null) return;
+if(selected===curQuestions[curIndex].a) score++;
+curIndex++;
+if(curIndex<25){showQuestion()}else{finishQuiz()}
+}
+function finishQuiz(){
+document.getElementById('quizPage').classList.add('hidden');
+document.getElementById('resultPage').classList.remove('hidden');
+let pct=Math.round((score/25)*100);
+document.getElementById('resultTitle').innerText=curSubject+' Completed!';
+document.getElementById('scoreCircle').innerText=pct+'%';
+document.getElementById('scoreCircle').style.setProperty('--pct',pct+'%');
+document.getElementById('resultMsg').innerText='You scored '+score+' out of 25 questions! '+(pct>=80?'Excellent!':pct>=50?'Good job!':'Keep practicing!');
+document.getElementById('certName').innerText=currentUser;
+document.getElementById('certSubject').innerText=curSubject+' - 25 Questions';
+document.getElementById('certScore').innerText=pct+'% ('+score+'/25)';
+document.getElementById('certDate').innerText=new Date().toLocaleDateString();
+progress[curSubject]={score:pct,done:true,attempts:(progress[curSubject]?.attempts||0)+1,raw:score,date:Date.now()};
+localStorage.setItem('kiddiesProgress25',JSON.stringify(progress));
+}
+function continueProgress(){
+document.getElementById('resultPage').classList.add('hidden');
+document.getElementById('dashboard').classList.remove('hidden');
+renderSubjects();
+renderProgress();
+window.scrollTo(0,document.getElementById('progressList').offsetTop);
+}
+function retake(){startQuiz(curSubject)}
+function backToDash(){
+document.getElementById('quizPage').classList.add('hidden');
+document.getElementById('dashboard').classList.remove('hidden');
+}
+window.onload=()=>{
+let saved=localStorage.getItem('kiddiesUser');
+if(saved){document.getElementById('userName').value=saved}
+}
+</script>
+</body>
+<html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
