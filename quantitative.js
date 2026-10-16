@@ -1,48 +1,47 @@
-const vquestions = [
+const qquestions = [
  {
-  q: "Which word is opposite of HAPPY?",
-  options: ["Sad", "Big", "Tall", "Fast"],
+  q: "Find the missing number: 2, 4, 6, 8,?",
+  options: ["10", "12", "9", "11"],
   answer: 1
  },
  {
-  q: "Cat is to Kitten as Dog is to?",
-  options: ["Puppy", "Cub", "Calf", "Child"],
-  answer: 1
+  q: "10, 20, 30,?, 50",
+  options: ["35", "40", "45", "60"],
+  answer: 2
  },
  {
-  q: "Find the odd one: Apple, Orange, Car, Banana",
-  options: ["Apple", "Orange", "Car", "Banana"],
-  answer: 3
+  q: "If 5 + 5 = 10, then 10 + 10 =?",
+  options: ["15", "20", "25", "30"],
+  answer: 2
  }
 ];
 
-let currentV = 0;
+let currentQ = 0;
 
-function loadV(){
- document.getElementById("question2").innerText = vquestions[currentV].q;
- document.getElementById("v1").innerText = vquestions[currentV].options[0];
- document.getElementById("v2").innerText = vquestions[currentV].options[1];
- document.getElementById("v3").innerText = vquestions[currentV].options[2];
- document.getElementById("v4").innerText = vquestions[currentV].options[3];
- document.getElementById("feedback2").innerText = "";
+function loadQ(){
+ document.getElementById("question").innerText = qquestions[currentQ].q;
+ document.getElementById("q1").innerText = qquestions[currentQ].options[0];
+ document.getElementById("q2").innerText = qquestions[currentQ].options[1];
+ document.getElementById("q3").innerText = qquestions[currentQ].options[2];
+ document.getElementById("q4").innerText = qquestions[currentQ].options[3];
+ document.getElementById("feedback").innerText = "";
 }
 
-function checkV(n){
- if(n === vquestions[currentV].answer){
-  document.getElementById("feedback2").innerText = "Correct!";
+function checkQ(n){
+ if(n === qquestions[currentQ].answer){
+  document.getElementById("feedback").innerText = "Correct!";
  } else {
-  document.getElementById("feedback2").innerText = "Wrong, try again!";
+  document.getElementById("feedback").innerText = "Wrong, try again!";
  }
 }
 
-function nextV(){
- currentV++;
- if(currentV < vquestions.length){
-  loadV();
+function nextQ(){
+ currentQ++;
+ if(currentQ < qquestions.length){
+  loadQ();
  } else {
-  document.getElementById("question2").innerText = "Finished Verbal!";
-  document.getElementById("quiz-box").style.display = "none";
+  document.getElementById("question").innerText = "Finished! Well Done!";
  }
 }
 
-loadV();
+loadQ();
