@@ -19,19 +19,28 @@ const qquestions = [
 let currentQ = 0;
 
 function loadQ(){
- document.getElementById("question").innerText = qquestions[currentQ].q;
- document.getElementById("q1").innerText = qquestions[currentQ].options[0];
- document.getElementById("q2").innerText = qquestions[currentQ].options[1];
- document.getElementById("q3").innerText = qquestions[currentQ].options[2];
- document.getElementById("q4").innerText = qquestions[currentQ].options[3];
- document.getElementById("feedback").innerText = "";
+ let qEl = document.getElementById("question") || document.getElementById("question2") || document.getElementById("question1");
+ if(qEl) qEl.innerText = qquestions[currentQ].q;
+
+ let o = qquestions[currentQ].options;
+ let ids = [["q1","v1","opt1","option1"], ["q2","v2","opt2","option2"], ["q3","v3","opt3","option3"], ["q4","v4","opt4","option4"]];
+ ids.forEach((list, i)=>{
+  for(let id of list){
+   let el = document.getElementById(id);
+   if(el){ el.innerText = o[i]; el.textContent = o[i]; break; }
+  }
+ });
+ let fb = document.getElementById("feedback") || document.getElementById("feedback2");
+ if(fb) fb.innerText = "";
 }
 
 function checkQ(n){
+ let fb = document.getElementById("feedback") || document.getElementById("feedback2");
+ if(!fb) return;
  if(n === qquestions[currentQ].answer){
-  document.getElementById("feedback").innerText = "Correct!";
+  fb.innerText = "Correct!";
  } else {
-  document.getElementById("feedback").innerText = "Wrong, try again!";
+  fb.innerText = "Wrong, try again!";
  }
 }
 
@@ -40,7 +49,8 @@ function nextQ(){
  if(currentQ < qquestions.length){
   loadQ();
  } else {
-  document.getElementById("question").innerText = "Finished! Well Done!";
+  let qEl = document.getElementById("question") || document.getElementById("question2");
+  if(qEl) qEl.innerText = "Finished Quantitative! Well Done!";
  }
 }
 
