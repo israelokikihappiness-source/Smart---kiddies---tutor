@@ -1,129 +1,201 @@
 
 
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Smart Kiddies Tutor - Nursery to Primary 6 - Full Version</title>
+<title>Smart Kiddies Tutor - Final</title>
 <style>
-*{box-sizing:border-box}body{font-family:Inter,Segoe UI,sans-serif;background:#F6F7FF;margin:0;color:#2D3436}
-.hero{background:linear-gradient(135deg,#6C5CE7 0%,#A29BFE 100%);color:white;padding:35px 20px;text-align:center;border-radius:0 0 32px 32px}
-.card{background:white;border-radius:20px;padding:20px;margin:14px;box-shadow:0 10px 30px rgba(108,92,231,0.08)}
-.input{width:100%;padding:15px;border:2px solid #DFE6E9;border-radius:12px;margin:8px 0;font-size:15px}
-.btn{width:100%;padding:15px;background:#6C5CE7;color:white;border:none;border-radius:12px;font-weight:800;font-size:16px;cursor:pointer}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.sub{padding:20px;border-radius:18px;text-align:center;color:white;font-weight:800;cursor:pointer;line-height:1.3}
-.hide{display:none}.q{padding:14px;border:2px solid #DFE6E9;border-radius:12px;margin:8px 0;cursor:pointer;background:#fff}
-.q:hover{border-color:#6C5CE7}.q.correct{background:#D4EFDF;border-color:#00B894}.q.wrong{background:#FADBD8;border-color:#E17055}
-.top{display:flex;justify-content:space-between;align-items:center;background:white;margin:10px;border-radius:12px;padding:10px 14px}
-.progress{height:8px;background:#DFE6E9;border-radius:10px;overflow:hidden;margin:10px 0}.bar{height:100%;background:#6C5CE7;width:0%;transition:0.3s}
-.badge{display:inline-block;background:#FFEAA7;padding:6px 12px;border-radius:20px;font-weight:700;margin:4px}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:Segoe UI,sans-serif;background:#f5f3ff;min-height:100vh}
+.header{background:linear-gradient(135deg,#7c5cff,#a78bfa);color:#fff;padding:25px;border-radius:0 0 30px 30px;text-align:center}
+.card{background:#fff;border-radius:20px;padding:20px;margin:15px;box-shadow:0 4px 15px rgba(0,0,0,.08)}
+h1{font-size:26px}input,select{width:100%;padding:14px;border:2px solid #e9e5ff;border-radius:12px;margin:8px 0;font-size:15px}
+.btn{background:linear-gradient(135deg,#7c5cff,#6d28d9);color:#fff;border:none;padding:14px;border-radius:12px;width:100%;font-weight:bold;font-size:16px;cursor:pointer;margin:8px 0}
+.btn-sec{background:#4b5563}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+.sub-card{padding:20px;border-radius:16px;color:#fff;text-align:center;cursor:pointer;font-weight:bold;position:relative;min-height:90px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.sub-card small{font-weight:normal;margin-top:4px}
+.sub-eng{background:#7c5cff}.sub-math{background:#10b981}.sub-quant{background:#f97316}.sub-verbal{background:#ec4899}.sub-basic{background:#2563eb}.sub-bst{background:#06b6d4}
+.completed{border:3px solid #10b981}.completed::after{content:'✓ DONE';position:absolute;top:5px;right:8px;background:#10b981;color:#fff;font-size:10px;padding:2px 6px;border-radius:10px}
+.progress-bar{height:10px;background:rgba(255,255,255,.3);border-radius:10px;margin-top:10px;overflow:hidden}.progress-fill{height:100%;background:#fff;width:0%;transition:width.5s}
+.certificate{border:4px double #7c5cff;background:linear-gradient(45deg,#fffbeb,#fff);padding:20px;border-radius:15px;margin:15px 0;text-align:center}
+.badge{display:inline-block;background:#7c5cff;color:#fff;padding:4px 10px;border-radius:12px;font-size:12px;margin:3px}
+.hidden{display:none}
+.q-box{background:#f5f3ff;padding:18px;border-radius:12px;margin:12px 0}
+.opt{padding:14px;background:#fff;border:2px solid #e9e5ff;border-radius:12px;margin:8px 0;cursor:pointer}.opt:hover{border-color:#7c5cff}.opt.sel{background:#7c5cff;color:#fff;border-color:#7c5cff}
+.score-circle{width:130px;height:130px;border-radius:50%;background:conic-gradient(#7c5cff var(--p),#e9e5ff 0);display:flex;align-items:center;justify-content:center;margin:15px auto}
+.score-inner{width:105px;height:105px;background:#fff;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center}
 </style>
 </head>
 <body>
-<div id="page-welcome">
-<div class="hero"><h1> Smart Kiddies Tutor</h1><p>Complete Computerized Tutor<br>Nursery to Primary 6 | NERDC Curriculum</p></div>
-<div class="card"><h2> Welcome Learner!</h2>
-<input id="sname" class="input" placeholder="Full Name e.g. Happiness Israel Okiki">
-<select id="sclass" class="input">
-<option value="">-- Select Your Class --</option>
-<option>Nursery 1</option><option>Nursery 2</option><option>Nursery 3</option>
-<option>Primary 1</option><option>Primary 2</option><option>Primary 3</option>
-<option>Primary 4</option><option>Primary 5</option><option>Primary 6</option>
-</select>
-<select id="sterm" class="input"><option>1st Term</option><option>2nd Term</option><option>3rd Term</option></select>
-<input id="sschool" class="input" placeholder="School Name (Optional)">
-<button class="btn" onclick="startApp()">Start Learning </button>
+<div id="welcomePage">
+<div class="header">
+<h1>Smart Kiddies Tutor</h1>
+<p>Complete Computerized Tutor<br>Nursery to Primary 6 | NERDC Curriculum</p>
+</div>
+<div class="card">
+<h2>Welcome </h2>
+<input id="fullName" placeholder="Full Name e.g. Happiness Israel Okiki">
+<select id="classSel"><option value="">-- Select Your Class --</option><option>Nursery 1</option><option>Nursery 2</option><option>Primary 1</option><option>Primary 2</option><option>Primary 3</option><option>Primary 4</option><option>Primary 5</option><option>Primary 6</option></select>
+<select id="termSel"><option>1st Term</option><option>2nd Term</option><option>3rd Term</option></select>
+<input id="schoolName" placeholder="School Name (Optional)">
+<button class="btn" onclick="startApp()">Start Learning</button>
+<div id="resumeBox" class="hidden" style="background:#f0fdf4;padding:12px;border-radius:12px;margin-top:10px;border:1px solid #bbf7d0"></div>
 </div>
 </div>
-<div id="page-dash" class="hide">
-<div class="hero" style="padding:20px"><h2 id="wname"></h2><p id="wclass"></p><p> Total Score: <span id="tscore">0</span> | Level: <span id="tlevel">Beginner</span></p><div class="progress"><div id="tbar" class="bar"></div></div></div>
-<div class="card"><h3> Choose Subject - <span id="currentClassLabel"></span></h3>
-<div class="grid">
-<div class="sub" style="background:#6C5CE7" onclick="openSubject('English')"> English<br><small id="ec">0 Qs</small></div>
-<div class="sub" style="background:#00B894" onclick="openSubject('Maths')"> Mathematics<br><small id="mc">0 Qs</small></div>
-<div class="sub" style="background:#E17055" onclick="openSubject('Quantitative')"> Quantitative<br><small id="qc">0 Qs</small></div>
-<div class="sub" style="background:#E84393" onclick="openSubject('Verbal')"> Verbal Reasoning<br><small id="vc">0 Qs</small></div>
-<div class="sub" style="background:#0984E3" onclick="openSubject('Science')"> Basic Science<br><small id="sc">0 Qs</small></div>
-<div class="sub" style="background:#00CEC9" onclick="openSubject('BST')"> BST / Computer<br><small id="bc">0 Qs</small></div>
+<div id="dashboardPage" class="hidden">
+<div class="header">
+<h2 id="helloText">Hello, Joy</h2>
+<p id="classTermText">Primary 3 | 1st Term</p>
+<p id="totalScoreText">Total Score: 0 | Level: Beginner</p>
+<div class="progress-bar"><div id="overallProg" class="progress-fill"></div></div>
 </div>
-<button class="btn" style="background:#636E72;margin-top:12px" onclick="logout()">Change Class / Logout</button>
+<div class="card">
+<h3>Choose Subject - <span id="dashClass">Primary 3</span></h3>
+<div class="grid" id="subjectGrid"></div>
+<button class="btn btn-sec" onclick="logout()">Change Class / Logout</button>
 </div>
-<div class="card" id="history"><h3> Learning Progress</h3><div id="hlist">No activity yet. Start a subject!</div></div>
+<div class="card">
+<h3>Learning Progress</h3>
+<div id="progressBox">No activity yet. Start a subject!</div>
 </div>
-<div id="page-quiz" class="hide">
-<div class="top"><button onclick="backDash()">← Back</button><b id="qsubject"></b><span>Score: <span id="qscore">0</span></span></div>
-<div class="card"><div style="display:flex;justify-content:space-between"><span id="qnum">Q 1/20</span><span id="qperc">0%</span></div><div class="progress"><div id="qbar" class="bar"></div></div><h3 id="qtext">Question</h3><div id="qopts"></div><div id="qexp" class="hide" style="background:#F1F2F6;padding:12px;border-radius:10px;margin-top:10px"></div><button id="qnext" class="btn hide" onclick="nextQ()">Next Question →</button></div>
+</div>
+<div id="quizPage" class="hidden">
+<div class="header" style="padding:15px"><p id="quizHead">English - Q1/10</p><div class="progress-bar"><div id="quizProg" class="progress-fill"></div></div></div>
+<div class="card">
+<div id="qBox" class="q-box"></div>
+<div id="optBox"></div>
+<button id="nextBtn" class="btn hidden" onclick="nextQ()">Next →</button>
+</div>
+</div>
+<div id="resultPage" class="hidden">
+<div class="header"><h2> Bravo! </h2><p>You did it! </p></div>
+<div class="card" style="text-align:center">
+<div style="font-size:30px">   </div>
+<h2 id="bravoName">Excellent, Joy!</h2>
+<div class="score-circle" id="scoreCircle" style="--p:0%"><div class="score-inner"><span id="finalPct" style="font-size:28px;font-weight:bold;color:#7c5cff">0%</span><span>Score</span></div></div>
+<p id="finalMsg" style="font-size:18px;font-weight:bold"></p>
+<div id="statsBox" style="text-align:left;margin:15px 0"></div>
+<div class="certificate" id="certBox"></div>
+<button class="btn" onclick="goDashboard()"> Continue - See My Progress</button>
+<button class="btn" style="background:#10b981" onclick="retake()"> Retake This Subject</button>
+<div style="text-align:left;margin-top:20px"><h3>Answer Review:</h3><div id="reviewBox"></div></div>
+</div>
 </div>
 <script>
-let student={name:"",cls:"",score:0,answered:0,correct:0,currentSet:[],idx:0,subScore:0,subject:""};
-let bank={
-"English":{"Nursery 1":["What is A for?|Apple|Ball|Cat|Apple","What is B for?|Ball|Apple|Dog|Ball","Sound of C?|Cat|Apple|Goat|Cat","How many letters?|26|10|5|26","Color of apple?|Red|Blue|White|Red"],"Primary 6":["Synonym of happy?|Joyful|Sad|Angry|Joyful","Antonym of brave?|Cowardly|Strong|Bold|Cowardly","Past of go?|Went|Goed|Going|Went","Correct: ___ university|a|an|the|a","Idiom 'Piece of cake'|Easy|Hard|Sweet|Easy","Noun clause?|That he came|Quickly|Red|That he came","Active of 'Book was read'|He read book|Book read|Reading|He read book","Figure of speech 'He is lion'|Metaphor|Simile|Irony|Metaphor","Plural of criterion?|Criteria|Criterions|Criterion|Criteria","Prefix of legal?|Illegal|Legal|Legally|Illegal","Direct speech?|'I am here'|He said he was|I was there|I am here","Conjunction?|And|Go|Quick|And","Preposition?|Under|Run|Happy|Under","Common Entrance English often?|Comprehension|Swimming|Dancing|Comprehension","Choose correct: Their ___|There|Their|They're|Their"]},
-"Maths":{"Nursery 1":["1+1?|2|3|4|2","2+2?|4|5|2|4","Count: ?|3|2|4|3"],"Primary 6":["2+2*2?|6|8|4|6","Square root 64?|8|6|7|8","LCM 2,3?|6|5|2|6","20% of 200?|40|20|200|40","Area rectangle 5x4?|20|9|10|20","Profit if SP 150 CP 100?|50|250|150|50","Simplify 2/4?|1/2|2|1|1/2","Angle in triangle?|180|90|360|180","Mean 2,4,6?|4|6|3|4","If x+5=10 x?|5|10|15|5","Perimeter square side 5?|20|10|25|20","Volume cube side 2?|8|4|6|8","Ratio 2:4=1:?|2|4|1|2","Convert 0.5 to %?|50%|5%|0.5%|50%","BODMAS 3+3*3?|12|18|6|12"]},
-"Quantitative":{"Primary 1":["Find missing: 1,2,?,4|3|5|2|3","2,4,6,?|8|7|10|8"],"Primary 6":["Series 2,4,8,16,?|32|24|20|32","If A=1 B=2 C=?|3|4|5|3","Find?: 5,10,15,?|20|25|18|20","Odd one: 2,3,5,8,11?|8|2|5|8","Matrix: 1→2,2→4,3→?|6|5|9|6","Code: CAT=3, DOG=3, BALL=?|4|3|2|4","If 3x=12 x?|4|3|6|4","What comes next 100,90,80?|70|60|100|70","If Monday is 1 Tuesday is?|2|3|5|2","Balance: 2+?=5|3|2|5|3","Find missing 1,4,9,16?|25|20|24|25","Age: Father 40 son 10 diff?|30|20|50|30","Speed 60km in 2hr?|30km/h|60km/h|120km/h|30km/h","Pattern ○□○□?|○|□|△|○","Quantitative reasoning tests?|Logic|Singing|Dancing|Logic"]},
-"Verbal":{"Primary 1":["Boy is to Girl as Man is to?|Woman|Boy|Girl|Woman","Dog is to Bark Cat is to?|Meow|Bark|Moo|Meow"],"Primary 6":["Synonym: Abundant?|Plentiful|Scarce|Small|Plentiful","Antonym: Ancient?|Modern|Old|Past|Modern","Analogy: Doctor:Hospital::Teacher:?|School|Hospital|Market|School","Odd: Apple, Mango, Car, Orange?|Car|Apple|Mango|Car","Complete: Pen is to Write as Knife is to?|Cut|Write|Draw|Cut","Verbal reasoning means?|Words logic|Numbers only|Drawing|Words logic","Which is verb?|Run|Beautiful|Quickly|Run","Choose correct spelling|Necessary|Neccessary|Necesary|Necessary","If all cats are animals, cat is?|Animal|Not animal|Bird|Animal","Opposite of Honest?|Dishonest|Honesty|Truth|Dishonest"]},
-"Science":{"Primary 6":["Photosynthesis needs?|Sunlight|Dark|Moon|Sunlight","Heart pumps?|Blood|Water|Air|Blood","Evaporation is?|Liquid to gas|Gas to liquid|Solid to liquid|Liquid to gas","Circuit needs?|Battery|Stone|Paper|Battery","Acid turns litmus?|Red|Blue|Green|Red","Force unit?|Newton|Kg|Meter|Newton","Planet closest to sun?|Mercury|Earth|Mars|Mercury","Digestion starts?|Mouth|Leg|Hand|Mouth","Oxygen for?|Breathing|Eating|Seeing|Breathing","Simple machine?|Lever|Water|Air|Lever"]},
-"BST":{"Primary 6":["Full meaning of ICT?|Information Communication Technology|Internet Computer|Info Tech|Information Communication Technology","Browser example?|Chrome|Paint|Word|Chrome","Input device?|Keyboard|Monitor|Printer|Keyboard","Output device?|Printer|Keyboard|Mouse|Printer","Storage device?|Hard disk|Monitor|Keyboard|Hard disk","Internet means?|Interconnected network|Internal net|Inter net|Interconnected network","Software is?|Program|Hardware|Stone|Program","RAM means?|Random Access Memory|Read Access|Random|Random Access Memory","URL means?|Uniform Resource Locator|Universal|Uniform|Uniform Resource Locator","AI means?|Artificial Intelligence|Automated Info|Artificial|Artificial Intelligence"]}
+let pupil={},currentSub="",qs=[],qi=0,score=0,ansLog=[];
+const bank={
+"English":[{q:"Choose the correct noun: ___ is barking.",o:["Dog","Run","Beautiful","Quickly"],a:0,e:"Dog is a noun"},{q:"Synonym of Happy?",o:["Sad","Joyful","Angry"],a:1,e:"Joyful means happy"},{q:"Plural of Child?",o:["Childs","Children","Childes"],a:1,e:"Children is correct"},{q:"Which is a vowel letter?",o:["B","C","A"],a:2,e:"A,E,I,O,U are vowels"},{q:"Past tense of Go?",o:["Gone","Went","Goes"],a:1,e:"Went is past tense"},{q:"Opposite of Big?",o:["Small","Large","Huge"],a:0,e:"Small is opposite"},{q:"How many letters in English alphabet?",o:["26","24","28"],a:0,e:"26 letters"},{q:"___ is an orange.",o:["An","A","The"],a:0,e:"An before vowel"},{q:"He ___ playing.",o:["is","are","am"],a:0,e:"He is playing"},{q:"Select adjective: The ___ boy",o:["tall","run","quickly"],a:0,e:"Tall describes boy"}],
+"Mathematics":[{q:"12 x 8 =?",o:["96","86","108"],a:0,e:"12x8=96"},{q:"50% of 80?",o:["40","50","30"],a:0,e:"Half of 80 is 40"},{q:"Perimeter of square side 5cm?",o:["20cm","25cm","10cm"],a:0,e:"4x5=20"},{q:"Find L.C.M of 4 and 6",o:["12","8","10"],a:0,e:"LCM is 12"},{q:"3/4 + 1/4 =?",o:["1","4/8","1/2"],a:0,e:"=1"},{q:"10 + 15 =?",o:["25","20","30"],a:0,e:"25"},{q:"100 - 45 =?",o:["55","45","65"],a:0,e:"55"},{q:"7 x 9 =?",o:["63","56","72"],a:0,e:"63"},{q:"What is next: 2,4,6,8,?",o:["10","9","11"],a:0,e:"Add 2"},{q:"Triangle has how many sides?",o:["3","4","5"],a:0,e:"3 sides"}],
+"Basic Science":[{q:"What do plants need to make food?",o:["Sunlight","Moonlight","Darkness"],a:0,e:"Sunlight for photosynthesis"},{q:"Boiling point of water?",o:["100°C","0°C","50°C"],a:0,e:"100°C"},{q:"How many teeth adult has?",o:["32","28","20"],a:0,e:"32 teeth"}],
+"Quantitative":[{q:"2,4,6,8,?",o:["10","9","11"],a:0,e:"Add 2"},{q:"5,10,15,20,?",o:["25","30","22"],a:0,e:"Add 5"}],
+"Verbal Reasoning":[{q:"Cat is to Kitten as Dog is to ___",o:["Puppy","Cub","Calf"],a:0,e:"Baby dog is puppy"}],
+"BST / Computer":[{q:"Full meaning of CPU?",o:["Central Processing Unit","Computer Processing Unit","Central Power Unit"],a:0,e:"Central Processing Unit"}]
 };
-function generateExtra(cls,sub,count){
- let base=bank[sub][cls]||bank[sub]["Primary 6"]||[];
- let arr=[...base]; while(arr.length<count){ arr=arr.concat(base); }
- return arr.slice(0,count).map(s=>{let p=s.split('|');return {q:p[0],opts:[p[1],p[2],p[3]],ans:p[4]}});
-}
+const subColors={"English":"sub-eng","Mathematics":"sub-math","Quantitative":"sub-quant","Verbal Reasoning":"sub-verbal","Basic Science":"sub-basic","BST / Computer":"sub-bst"};
+function loadData(){try{return JSON.parse(localStorage.getItem('smart_kiddies_final')||'{}')}catch(e){return {}}}
+function saveData(d){localStorage.setItem('smart_kiddies_final',JSON.stringify(d))}
+window.onload=()=>{
+ let data=loadData();
+ if(data.pupil && data.pupil.name){
+   document.getElementById('fullName').value=data.pupil.name;
+   document.getElementById('classSel').value=data.pupil.class;
+   let rb=document.getElementById('resumeBox');rb.classList.remove('hidden');
+   rb.innerHTML=`Welcome back <b>${data.pupil.name}</b>! You have ${data.totalScore||0} points. <br><button class='btn' style='margin-top:8px' onclick='startApp()'>Continue Learning →</button>`;
+ }
+};
 function startApp(){
- let n=document.getElementById('sname').value.trim();
- let c=document.getElementById('sclass').value;
- if(!n||!c){alert('Please enter your name and select class from Nursery 1 to Primary 6');return;}
- student.name=n; student.cls=c;
- document.getElementById('page-welcome').classList.add('hide');
- document.getElementById('page-dash').classList.remove('hide');
- document.getElementById('wname').innerText='Hello, '+n+' ';
- document.getElementById('wclass').innerText=c+' | '+document.getElementById('sterm').value;
- document.getElementById('currentClassLabel').innerText=c;
+ let name=document.getElementById('fullName').value.trim();
+ let cls=document.getElementById('classSel').value;
+ let term=document.getElementById('termSel').value;
+ let school=document.getElementById('schoolName').value.trim();
+ if(!name||!cls){alert('Please enter Full Name and select Class');return}
+ pupil={name,class:cls,term,school};
+ let data=loadData();
+ data.pupil=pupil;
+ if(!data.totalScore)data.totalScore=0;
+ if(!data.subjects)data.subjects={};
+ if(!data.history)data.history=[];
+ saveData(data);
+ showDashboard();
 }
-function openSubject(sub){
- student.subject=sub; student.currentSet=generateExtra(student.cls,sub,25); student.idx=0; student.subScore=0;
- document.getElementById('page-dash').classList.add('hide'); document.getElementById('page-quiz').classList.remove('hide');
- document.getElementById('qsubject').innerText=sub+' - '+student.cls; document.getElementById('qscore').innerText=0;
- showQ();
-}
-function showQ(){
- let item=student.currentSet[student.idx];
- document.getElementById('qnum').innerText='Question '+(student.idx+1)+'/'+student.currentSet.length;
- document.getElementById('qperc').innerText=Math.round((student.idx/student.currentSet.length)*100)+'%';
- document.getElementById('qbar').style.width=Math.round((student.idx/student.currentSet.length)*100)+'%';
- document.getElementById('qtext').innerText=item.q;
- let optsDiv=document.getElementById('qopts'); optsDiv.innerHTML=''; document.getElementById('qexp').classList.add('hide'); document.getElementById('qnext').classList.add('hide');
- let shuffled=[...item.opts].sort(()=>Math.random()-0.5);
- shuffled.forEach(o=>{
-  let d=document.createElement('div'); d.className='q'; d.innerText=o;
-  d.onclick=()=>check(d,o,item.ans);
-  optsDiv.appendChild(d);
+function showDashboard(){
+ let data=loadData();
+ document.getElementById('helloText').innerText=`Hello, ${data.pupil.name.split(' ')[0]}`;
+ document.getElementById('classTermText').innerText=`${data.pupil.class} | ${data.pupil.term}`;
+ document.getElementById('totalScoreText').innerText=`Total Score: ${data.totalScore||0} | Level: ${getLevel(data.totalScore||0)}`;
+ document.getElementById('dashClass').innerText=data.pupil.class;
+ let progPct=Math.min(100,((Object.keys(data.subjects).length)/6)*100);
+ document.getElementById('overallProg').style.width=progPct+'%';
+ let grid=document.getElementById('subjectGrid');grid.innerHTML='';
+ ["English","Mathematics","Quantitative","Verbal Reasoning","Basic Science","BST / Computer"].forEach(s=>{
+   let done=data.subjects[s];
+   let div=document.createElement('div');div.className=`sub-card ${subColors[s]||'sub-eng'} ${done?'completed':''}`;
+   div.innerHTML=`${s}<small>${done?done.score+'% ✓ DONE': '0 Qs - Tap to start'}</small>`;
+   div.onclick=()=>startQuiz(s);
+   grid.appendChild(div);
  });
+ let pb=document.getElementById('progressBox');
+ let hist=data.history||[];
+ if(hist.length===0){pb.innerHTML='No activity yet. Start a subject!';}
+ else{
+   pb.innerHTML=hist.slice(-10).reverse().map(h=>`<div style="padding:8px;border-bottom:1px solid #eee;display:flex;justify-content:space-between"><span><span class='badge'>${h.subject}</span> ${h.score}% - ${h.date}</span><span>${h.score>=50?'':''}</span></div>`).join('')+`<p style='margin-top:8px'><b>Total Subjects Completed:</b> ${Object.keys(data.subjects).length}/6</p>`;
+ }
+ showPage('dashboardPage');
 }
-function check(div,chosen,correct){
- let all=document.querySelectorAll('.q'); all.forEach(e=>e.onclick=null);
- if(chosen===correct){ div.classList.add('correct'); student.subScore+=10; student.score+=10; student.correct++; document.getElementById('qexp').innerHTML=' Correct! '+correct+' is right.'; }
- else { div.classList.add('wrong'); document.getElementById('qexp').innerHTML=' Wrong. Correct answer is <b>'+correct+'</b>'; all.forEach(e=>{if(e.innerText===correct)e.classList.add('correct')}); }
- document.getElementById('qscore').innerText=student.subScore; document.getElementById('qexp').classList.remove('hide'); document.getElementById('qnext').classList.remove('hide');
- student.answered++; document.getElementById('tscore').innerText=student.score;
+function startQuiz(sub){
+ currentSub=sub;let base=bank[sub]||bank["English"];
+ qs=[];for(let i=0;i<10;i++){qs.push(base[i%base.length])}
+ qi=0;score=0;ansLog=[];
+ renderQ();showPage('quizPage');
 }
-function nextQ(){ student.idx++; if(student.idx>=student.currentSet.length){ alert('Finished '+student.subject+'! You scored '+student.subScore+'/'+(student.currentSet.length*10)); backDash(); } else { showQ(); } }
-function backDash(){ document.getElementById('page-quiz').classList.add('hide'); document.getElementById('page-dash').classList.remove('hide'); }
-function logout(){ document.getElementById('page-dash').classList.add('hide'); document.getElementById('page-welcome').classList.remove('hide'); }
+function renderQ(){
+ let q=qs[qi];
+ document.getElementById('quizHead').innerText=`${currentSub} - Q${qi+1}/${qs.length}`;
+ document.getElementById('quizProg').style.width=`${(qi/qs.length)*100}%`;
+ document.getElementById('qBox').innerHTML=`<h3>${q.q}</h3>`;
+ let ob=document.getElementById('optBox');ob.innerHTML='';
+ q.o.forEach((opt,i)=>{
+   let d=document.createElement('div');d.className='opt';d.innerText=opt;
+   d.onclick=()=>{document.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));d.classList.add('sel');checkAns(i)};
+   ob.appendChild(d);
+ });
+ document.getElementById('nextBtn').classList.add('hidden');
+}
+function checkAns(i){
+ let q=qs[qi];let correct=q.a;let isCorrect=i===correct;
+ ansLog.push({q:q.q,chosen:q.o[i],correct:q.o[correct],isCorrect,exp:q.e});
+ if(isCorrect)score+=10;
+ document.getElementById('nextBtn').classList.remove('hidden');
+}
+function nextQ(){qi++;if(qi<qs.length){renderQ()}else{finishQuiz()}}
+function finishQuiz(){
+ let pct=Math.round((score/(qs.length*10))*100);
+ let data=loadData();
+ let old=data.subjects[currentSub]?.raw||0;
+ data.totalScore=(data.totalScore||0)-old+score;
+ data.subjects[currentSub]={score:pct,raw:score,date:new Date().toLocaleDateString()};
+ data.history.push({subject:currentSub,score:pct,raw:score,date:new Date().toLocaleDateString(),class:data.pupil.class});
+ saveData(data);
+ document.getElementById('bravoName').innerText=`${pct>=80?' Excellent':pct>=50?' Good Job':' Keep Trying'}, ${data.pupil.name.split(' ')[0]}!`;
+ document.getElementById('scoreCircle').style.setProperty('--p',pct+'%');
+ document.getElementById('finalPct').innerText=pct+'%';
+ let remark=pct>=80?"Bravo! You are a star! ":pct>=60?"Great work! Keep it up! ":pct>=50?"Good, you passed! ":"Don't worry, practice makes perfect! ";
+ document.getElementById('finalMsg').innerText=remark;
+ document.getElementById('statsBox').innerHTML=`<div style="display:flex;justify-content:space-between"><span>Subject:</span><b>${currentSub}</b></div><div style="display:flex;justify-content:space-between"><span>Score:</span><b>${score}/${qs.length*10}</b></div><div style="display:flex;justify-content:space-between"><span>Percentage:</span><b>${pct}%</b></div><div style="display:flex;justify-content:space-between"><span>Remark:</span><b>${remark}</b></div>`;
+ document.getElementById('certBox').innerHTML=`<h3> Certificate of Achievement</h3><p>This is to certify that</p><h2 style="color:#7c5cff">${data.pupil.name}</h2><p>Class: ${data.pupil.class}</p><p>has completed <b>${currentSub}</b> with <b>${pct}%</b></p><p><small>${new Date().toLocaleDateString()} | Smart Kiddies Tutor</small></p>`;
+ document.getElementById('reviewBox').innerHTML=ansLog.map((a,i)=>`<div style="padding:10px;border-left:4px solid ${a.isCorrect?'#10b981':'#ef4444'};margin:8px 0;background:#f9f9ff"><b>Q${i+1}:</b> ${a.q}<br>Your answer: ${a.chosen} ${a.isCorrect?'':''}${!a.isCorrect?`<br>Correct: ${a.correct}`:''}<br><small><i>${a.exp}</i></small></div>`).join('');
+ showPage('resultPage');
+}
+function getLevel(s){if(s>=500)return 'Champion';if(s>=300)return 'Advanced';if(s>=150)return 'Intermediate';if(s>=50)return 'Beginner+';return 'Beginner'}
+function showPage(id){['welcomePage','dashboardPage','quizPage','resultPage'].forEach(p=>document.getElementById(p).classList.add('hidden'));document.getElementById(id).classList.remove('hidden');window.scrollTo(0,0)}
+function goDashboard(){showDashboard()}
+function retake(){startQuiz(currentSub)}
+function logout(){if(confirm('Logout? Your progress is saved on this device.')){showPage('welcomePage')}}
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
 
 
 
