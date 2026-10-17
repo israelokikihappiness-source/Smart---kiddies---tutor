@@ -1,0 +1,175 @@
+
+
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Kiddies Tutor - 45 Questions</title>
+<style>
+*{box-sizing:border-box;font-family:system-ui}body{margin:0;background:linear-gradient(135deg,#6a11cb,#2575fc);min-height:100vh}
+.header{background:linear-gradient(90deg,#5a00d0,#7b2eff);color:white;padding:18px;text-align:center;font-size:26px;font-weight:800}
+.card{background:white;border-radius:20px;margin:14px;padding:18px;box-shadow:0 8px 20px rgba(0,0,0,.15)}
+.subject{border:3px solid #00d084;border-radius:18px;padding:16px;margin:10px 0;text-align:center;font-weight:800;font-size:19px;cursor:pointer;background:linear-gradient(90deg,#d4fff0,#ffe6f5)}
+.btn{background:#5a00d0;color:white;border:none;padding:14px 22px;border-radius:12px;font-size:17px;font-weight:700;width:100%;margin-top:10px;cursor:pointer}
+.btn-green{background:#00c853}.btn-orange{background:#ff6f00}.btn-gray{background:#777}
+.hidden{display:none}.option{border:2px solid #ddd;border-radius:12px;padding:12px;margin:8px 0;cursor:pointer;background:#fafafa;font-size:16px}
+.option.selected{border-color:#5a00d0;background:#ede7ff}.option.correct{border-color:#00c853;background:#d4ffd4}.option.wrong{border-color:#ff1744;background:#ffd4d4}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:100;padding:18px}
+.modal-box{background:white;border-radius:20px;padding:22px;width:100%;max-width:420px}
+input,select{width:100%;padding:13px;border-radius:10px;border:2px solid #ddd;font-size:16px;margin:6px 0}
+.progress-bar{background:#eee;border-radius:20px;height:16px;overflow:hidden;margin:6px 0}
+.progress-fill{background:linear-gradient(90deg,#00e676,#00c853);height:100%;transition:.5s}
+</style></head><body>
+<div class="header">Smart Kiddies Tutor</div>
+
+<div id="classModal" class="modal"><div class="modal-box">
+<h2 id="modalTitle">Welcome! </h2><p>Enter name and class:</p>
+<input id="studentName" placeholder="Your Name"><select id="studentClass">
+<option value="">-- Select Class --</option>
+<option>Nursery 1</option><option>Nursery 2</option>
+<option>Primary 1</option><option>Primary 2</option><option>Primary 3</option><option>Primary 4</option><option>Primary 5</option><option>Primary 6</option>
+</select>
+<button class="btn" onclick="saveClass()">Start </button>
+</div></div>
+
+<div id="homeScreen"><div class="card"><h2 id="greet">Hello</h2>
+<p>Current Class: <b id="currentClassBadge" style="background:#ede7ff;padding:6px 12px;border-radius:20px;color:#5a00d0">-</b></p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0"><div style="background:#e8f5e9;border-radius:12px;padding:10px;text-align:center"><b id="totalScore">0</b><br>Total Score</div><div style="background:#e3f2fd;border-radius:12px;padding:10px;text-align:center"><b id="avgScore">0%</b><br>Average</div></div>
+<button class="btn btn-orange" onclick="openClassModal()"> Change Class</button></div>
+<div class="card"><h2>Choose Subject - 45 Questions for <span id="classLabel">-</span></h2>
+<div class="subject" onclick="startQuiz('Quantitative')"> Quantitative Reasoning - <span id="prog-Quantitative">0%</span></div>
+<div class="subject" onclick="startQuiz('Verbal')"> Verbal Reasoning - <span id="prog-Verbal">0%</span></div>
+</div></div>
+
+<div id="quizScreen" class="hidden"><div class="card"><h2 id="quizTitle">Question</h2>
+<div class="progress-bar"><div id="qProgress" class="progress-fill"></div></div><p id="questionText" style="font-size:18px;font-weight:600"></p><div id="options"></div>
+<button id="nextBtn" class="btn hidden" onclick="nextQuestion()">Next →</button><button id="finishBtn" class="btn btn-green hidden" onclick="finishQuiz()">Finish Quiz</button>
+<button class="btn btn-gray" onclick="goHome()">Exit to Home</button></div></div>
+
+<div id="resultScreen" class="hidden"><div class="card"><h2> Completed!</h2><p id="resultText"></p>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:10px 0"><div style="background:#e8f5e9;border-radius:12px;padding:10px;text-align:center"><b id="rScore">0/45</b><br>Score</div><div style="background:#e3f2fd;border-radius:12px;padding:10px;text-align:center"><b id="rPercent">0%</b><br>%</div><div style="background:#ffebee;border-radius:12px;padding:10px;text-align:center"><b id="rWrong">0</b><br>Wrong</div></div>
+<button class="btn" id="reviewBtn" onclick="reviewWrong()"> Review Wrong Answers</button>
+<button class="btn btn-green" onclick="goHome()"> Do Other Subject</button>
+<button class="btn btn-orange" onclick="openClassModal()"> Switch Class</button></div>
+<div id="reviewCard" class="card hidden"><h2>Wrong Answers Review</h2><div id="reviewList"></div><button class="btn btn-gray" onclick="document.getElementById('reviewCard').classList.add('hidden')">Close Review</button></div></div>
+
+<script>
+function genQuantitative(nursery=false){
+let base=[
+{q:"What is next? 2,4,6,8,?",o:["9","10","11","12"],a:1},{q:"Half of 20?",o:["5","10","15","20"],a:1},{q:"5+5=?",o:["10","5","15","20"],a:0},{q:"10-4=?",o:["4","5","6","7"],a:2},{q:"3 x 4=?",o:["7","12","9","8"],a:1},{q:"Which is bigger? 15 or 9",o:["15","9","Equal","None"],a:0},{q:"Count: 1,2,3,?,5",o:["3","4","6","7"],a:1},{q:"7+3=?",o:["9","10","11","12"],a:1},{q:"20/2=?",o:["10","5","20","2"],a:0},{q:"9-3=?",o:["3","6","9","12"],a:1}
+];
+while(base.length<45){base=base.concat(base);} return base.slice(0,45);
+}
+function genVerbal(nursery=false){
+let base=[
+{q:"Opposite of HAPPY?",o:["Sad","Big","Tall","Fast"],a:0},{q:"Cat is to Kitten as Dog is to?",o:["Puppy","Cub","Calf","Child"],a:0},{q:"A is to Apple, B is to?",o:["Ball","Cat","Dog","Egg"],a:0},{q:"Which is a fruit? Mango, Car, Book",o:["Mango","Car","Book","Table"],a:0},{q:"Plural of Boy?",o:["Boys","Boyes","Boyses","Boy"],a:0},{q:"Odd one: Apple, Orange, Car, Banana",o:["Apple","Orange","Car","Banana"],a:2},{q:"We ___ to school everyday",o:["go","goes","going","gone"],a:0},{q:"Opposite of Big?",o:["Small","Big","Large","Huge"],a:0},{q:"Correct spelling: Beautiful",o:["Beutiful","Beautiful","Beatiful","Beautifull"],a:1},{q:"I ___ a student",o:["am","is","are","be"],a:0}
+];
+while(base.length<45){base=base.concat(base);} return base.slice(0,45);
+}
+
+const BANK={
+"Nursery 1":{"Quantitative":genQuantitative(true),"Verbal":genVerbal(true)},
+"Nursery 2":{"Quantitative":genQuantitative(true),"Verbal":genVerbal(true)},
+"Primary 1":{"Quantitative":genQuantitative(),"Verbal":genVerbal()},
+"Primary 2":{"Quantitative":genQuantitative(),"Verbal":genVerbal()},
+"Primary 3":{"Quantitative":genQuantitative(),"Verbal":genVerbal()},
+"Primary 4":{"Quantitative":genQuantitative(),"Verbal":genVerbal()},
+"Primary 5":{"Quantitative":genQuantitative(),"Verbal":genVerbal()},
+"Primary 6":{"Quantitative":genQuantitative(),"Verbal":genVerbal()}
+};
+
+function getQuestions(subject){
+ let cls = localStorage.getItem('studentClass') || 'Primary 4';
+ return BANK[cls][subject];
+}
+
+let currentSubject="",currentQ=0,score=0,wrongList=[],answered=false;
+function openClassModal(){document.getElementById('modalTitle').innerText='Switch Class ';document.getElementById('classModal').style.display='flex';}
+function saveClass(){
+ const name=document.getElementById('studentName').value.trim();
+ const cls=document.getElementById('studentClass').value;
+ if(!name||!cls){alert('Enter name and class');return;}
+ localStorage.setItem('studentName',name);localStorage.setItem('studentClass',cls);
+ document.getElementById('classModal').style.display='none';updateHome();
+}
+function updateHome(){
+ const name=localStorage.getItem('studentName')||'';const cls=localStorage.getItem('studentClass')||'';
+ if(!name||!cls){openClassModal();return;}
+ document.getElementById('greet').innerText=`Hello, ${name}!`;
+ document.getElementById('currentClassBadge').innerText=cls;
+ document.getElementById('classLabel').innerText=cls;
+ let scores=JSON.parse(localStorage.getItem('scores_'+cls)||'{"Quantitative":0,"Verbal":0}');
+ let total=0;Object.values(scores).forEach(v=>total+=v);
+ document.getElementById('totalScore').innerText=total;
+ document.getElementById('avgScore').innerText=Math.round((total/90)*100)+'%';
+ ['Quantitative','Verbal'].forEach(s=>{
+   let pct=Math.round((scores[s]/45)*100)||0;
+   let el=document.getElementById('prog-'+s);
+   if(el) el.innerText=pct+'% Done';
+ });
+}
+function startQuiz(sub){
+ currentSubject=sub;currentQ=0;score=0;wrongList=[];answered=false;
+ document.getElementById('homeScreen').classList.add('hidden');
+ document.getElementById('resultScreen').classList.add('hidden');
+ document.getElementById('quizScreen').classList.remove('hidden');
+ showQuestion();
+}
+function showQuestion(){
+ answered=false;
+ let qs=getQuestions(currentSubject);
+ let q=qs[currentQ];
+ document.getElementById('quizTitle').innerText=`${currentSubject} (${localStorage.getItem('studentClass')}) - Q${currentQ+1}/45`;
+ document.getElementById('qProgress').style.width=((currentQ+1)/45*100)+'%';
+ document.getElementById('questionText').innerText=q.q;
+ let html='';q.o.forEach((opt,i)=>{html+=`<div class="option" onclick="selectOption(${i})" id="opt${i}">${opt}</div>`;});
+ document.getElementById('options').innerHTML=html;
+ document.getElementById('nextBtn').classList.add('hidden');
+ document.getElementById('finishBtn').classList.add('hidden');
+}
+function selectOption(idx){
+ if(answered) return;answered=true;
+ let qs=getQuestions(currentSubject);let q=qs[currentQ];
+ document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
+ document.getElementById('opt'+idx).classList.add('selected');
+ setTimeout(()=>{
+   if(idx===q.a){document.getElementById('opt'+idx).classList.add('correct');score++;}else{document.getElementById('opt'+idx).classList.add('wrong');document.getElementById('opt'+q.a).classList.add('correct');wrongList.push({q:q.q,your:q.o[idx],correct:q.o[q.a]});}
+   if(currentQ<44) document.getElementById('nextBtn').classList.remove('hidden'); else document.getElementById('finishBtn').classList.remove('hidden');
+ },250);
+}
+function nextQuestion(){currentQ++;showQuestion();}
+function finishQuiz(){
+ let cls=localStorage.getItem('studentClass');
+ let scores=JSON.parse(localStorage.getItem('scores_'+cls)||'{"Quantitative":0,"Verbal":0}');
+ scores[currentSubject]=score;localStorage.setItem('scores_'+cls,JSON.stringify(scores));
+ document.getElementById('quizScreen').classList.add('hidden');
+ document.getElementById('resultScreen').classList.remove('hidden');
+ document.getElementById('reviewCard').classList.add('hidden');
+ document.getElementById('rScore').innerText=score+'/45';
+ document.getElementById('rPercent').innerText=Math.round(score/45*100)+'%';
+ document.getElementById('rWrong').innerText=wrongList.length;
+ document.getElementById('resultText').innerText=`${currentSubject} for ${cls} completed! You scored ${score}/45`;
+ document.getElementById('reviewBtn').classList.toggle('hidden',wrongList.length===0);
+}
+function reviewWrong(){
+ let html='';if(wrongList.length===0) html='<p>No wrong answers!</p>';else wrongList.forEach((w,i)=>{html+=`<div style="border:1px solid #ddd;border-radius:10px;padding:10px;margin:8px 0"><b>${i+1}. ${w.q}</b><br><span style="color:red">Your answer: ${w.your}</span><br><span style="color:green">Correct: ${w.correct}</span></div>`;});
+ document.getElementById('reviewList').innerHTML=html;
+ document.getElementById('reviewCard').classList.remove('hidden');
+}
+function goHome(){
+ document.getElementById('quizScreen').classList.add('hidden');
+ document.getElementById('resultScreen').classList.add('hidden');
+ document.getElementById('homeScreen').classList.remove('hidden');
+ updateHome();
+}
+(function(){let n=localStorage.getItem('studentName');let c=localStorage.getItem('studentClass');if(!n||!c){document.getElementById('classModal').style.display='flex';}else{updateHome();}})();
+</script></body></html>
+
+
+
+
+
+
+
+
+
+
+
