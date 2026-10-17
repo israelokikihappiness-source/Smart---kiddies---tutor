@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Kiddies Tutor - Colorful Learning</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800&family=Fredoka:wght@600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',sans-serif;background: linear-gradient(135deg,#FFF6D5 0%,#FFE0F0 30%,#D5F6FF 60%,#E0FFD5 100%);min-height:100vh}
+.header{background: linear-gradient(90deg,#FF6B6B,#FFD93D,#6BCB77,#4D96FF,#9D4EDD);padding:12px 20px;color:white;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.logo{font-family:'Fredoka',sans-serif;font-size:28px;font-weight:800;text-shadow:2px 2px 0 #00000030}
+.logo span{background:white;color:#FF6B6B;padding:2px 10px;border-radius:12px;margin-left:6px}
+.hero{background:white;margin:15px;border-radius:25px;padding:20px;text-align:center;box-shadow:0 8px 20px #00000015;border:4px solid #FFD93D}
+.hero h1{font-family:'Fredoka',sans-serif;font-size:32px;background:linear-gradient(90deg,#FF6B6B,#4D96FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.kids-banner{display:flex;justify-content:center;gap:10px;margin:15px 0;flex-wrap:wrap}
+.kid-card{background:linear-gradient(135deg,#FFD93D,#FF6B6B);color:white;padding:12px 18px;border-radius:20px;font-weight:800}
+.class-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:15px}
+.class-item{background:linear-gradient(135deg,#FFF,#FFE0F0);border:3px solid #FFD93D;border-radius:18px;padding:15px;text-align:center;cursor:pointer}
+.class-item.active{background:linear-gradient(135deg,#FF6B6B,#FFD93D);color:white;border-color:#FF6B6B}
+.card{background:white;border-radius:20px;padding:20px;box-shadow:0 6px 15px #00000012;margin-bottom:15px;border-left:8px solid #FFD93D}
+.btn{border:none;padding:12px 22px;border-radius:25px;font-weight:800;cursor:pointer;font-family:'Nunito'}
+.btn-primary{background:linear-gradient(90deg,#FF6B6B,#FF8E53);color:white}
+.subject-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:15px}
+.subject-card{border-radius:20px;padding:18px;color:white;text-align:center}
+.subject-card.quant{background:linear-gradient(135deg,#4D96FF,#6BCB77)}
+.subject-card.verbal{background:linear-gradient(135deg,#FF6B6B,#FFD93D)}
+.badge{background:white;color:#333;padding:4px 10px;border-radius:12px;font-size:12px;font-weight:800;display:inline-block;margin-top:6px}
+.mode-btns{display:flex;gap:8px;margin-top:12px;justify-content:center}
+.mode-btn{background:white;color:#333;padding:8px 14px;border-radius:15px;border:none;font-weight:800;cursor:pointer}
+.question-box{background:#FFFBEB;border:3px dashed #FFD93D;border-radius:15px;padding:15px;margin:10px 0}
+.option{background:white;border:2px solid #EEE;border-radius:12px;padding:12px;margin:8px 0;cursor:pointer;display:flex;gap:10px}
+.option.selected{border-color:#4D96FF;background:#D5F6FF}
+.progress{height:12px;background:#EEE;border-radius:10px;overflow:hidden;margin:10px 0}
+.progress-bar{height:100%;background:linear-gradient(90deg,#FF6B6B,#FFD93D,#6BCB77);transition:width 0.3s}
+.login-box{max-width:400px;margin:40px auto;background:white;border-radius:25px;padding:25px;box-shadow:0 10px 30px #00000015;border:4px solid #FFD93D}
+.input{width:100%;padding:12px;border-radius:12px;border:2px solid #FFD93D;margin:8px 0;font-family:'Nunito'}
+.hidden{display:none}
+.container{max-width:1100px;margin:0 auto;padding:15px}
+.history-item{background:linear-gradient(90deg,#FFF6D5,#FFE0F0);border-radius:12px;padding:10px;margin:6px 0;display:flex;justify-content:space-between}
+</style>
+</head>
+<body>
+<div id="loginPage">
+<div class="login-box">
+<h2 style="text-align:center;font-family:Fredoka;color:#FF6B6B;font-size:28px"> Smart Kiddies Tutor</h2>
+<p style="text-align:center;color:#666;margin:10px 0">Fun Learning for Nursery & Primary!</p>
+<div style="text-align:center;font-size:50px"></div>
+<input id="nameInput" class="input" placeholder="Your Name" value="Happiness">
+<select id="classInput" class="input">
+<option>Nursery 1</option><option>Nursery 2</option><option>Nursery 3</option>
+<option>Primary 1</option><option>Primary 2</option><option selected>Primary 3</option>
+<option>Primary 4</option><option>Primary 5</option><option>Primary 6</option>
+</select>
+<button class="btn btn-primary" style="width:100%;margin-top:10px;font-size:18px" onclick="startApp()"> Start Learning!</button>
+<p style="text-align:center;margin-top:12px;font-size:13px;color:#999">50 Quantitative + 50 Verbal per class<br>Practice 5Qs ≠ Assessment 45Qs</p>
+</div>
+</div>
+<div id="mainApp" class="hidden">
+<div class="header">
+<div class="logo">Smart Kiddies<span id="userClassLabel">Primary 3</span></div>
+<div style="display:flex;gap:8px"><span id="userNameLabel" style="font-weight:800">Happiness</span>
+<button class="btn" style="background:white;color:#FF6B6B;padding:8px 14px" onclick="switchClass()"> Switch</button>
+<button class="btn" style="background:#333;color:white;padding:8px 14px" onclick="logout()">Logout</button></div>
+</div>
+<div class="container">
+<div class="hero"><h1>Learn • Play • Grow! </h1><p>Choose your class - 100 questions per class!</p>
+<div class="kids-banner"><div class="kid-card"> Colorful</div><div class="kid-card"> 50 Quant</div><div class="kid-card"> 50 Verbal</div><div class="kid-card"> Fun</div></div></div>
+<div class="card"><h3> Select Class: Nursery 1 to Primary 6</h3><div class="class-grid" id="classGrid"></div></div>
+<div class="card"><h3> Your Subjects for <span id="currentClassDisplay">Primary 3</span></h3>
+<p style="color:#666;font-size:14px">Practice = 5 different | Assessment = 45 different | No repetition!</p>
+<div class="subject-grid">
+<div class="subject-card quant"><h3> Quantitative</h3><div class="badge">50 Questions</div>
+<div class="mode-btns"><button class="mode-btn" onclick="startQuiz('quantitative','practice')"> Practice (5)</button><button class="mode-btn" onclick="startQuiz('quantitative','assessment')"> Assessment (45)</button></div></div>
+<div class="subject-card verbal"><h3> Verbal</h3><div class="badge">50 Questions</div>
+<div class="mode-btns"><button class="mode-btn" onclick="startQuiz('verbal','practice')"> Practice (5)</button><button class="mode-btn" onclick="startQuiz('verbal','assessment')"> Assessment (45)</button></div></div>
+</div></div>
+<div class="card"><h3> Performance History</h3>
+<div style="display:flex;gap:10px;margin:10px 0"><div style="background:linear-gradient(90deg,#4D96FF,#6BCB77);color:white;padding:10px 15px;border-radius:15px"><b>Tests:</b> <span id="totalTests">0</span></div><div style="background:linear-gradient(90deg,#FFD93D,#FF6B6B);color:white;padding:10px 15px;border-radius:15px"><b>Avg:</b> <span id="avgScore">0%</span></div><div style="background:linear-gradient(90deg,#9D4EDD,#4D96FF);color:white;padding:10px 15px;border-radius:15px"><b>Best:</b> <span id="bestScore">0%</span></div></div>
+<div id="historyList"><p style="color:#999;text-align:center;padding:20px">No tests yet.</p></div></div>
+</div></div>
+<div id="quizPage" class="hidden"><div class="header"><div class="logo" id="quizTitle">Quiz</div><div><button class="btn" style="background:white;color:#FF6B6B" onclick="exitQuiz()"> Exit</button></div></div>
+<div class="container"><div class="card"><div style="display:flex;justify-content:space-between"><span id="quizProgressText">Q1 of 5</span><span id="quizModeBadge" style="background:#FFD93D;padding:4px 12px;border-radius:12px;font-size:13px">Practice</span></div><div class="progress"><div id="quizProgressBar" class="progress-bar" style="width:20%"></div></div><div id="questionContainer"></div><div style="display:flex;justify-content:space-between;margin-top:15px"><button class="btn" style="background:#EEE" onclick="prevQuestion()"> Prev</button><button class="btn btn-primary" onclick="nextQuestion()">Next </button></div></div></div></div>
+<div id="resultPage" class="hidden"><div class="container" style="max-width:600px;margin:30px auto"><div class="card" style="text-align:center;border:4px solid #6BCB77"><div style="font-size:60px" id="resultEmoji"></div><h2 id="resultTitle">Excellent!</h2><h1 style="font-size:50px;color:#FF6B6B" id="resultScore">80%</h1><p id="resultDetail"></p><div style="display:flex;gap:10px;justify-content:center;margin-top:15px"><button class="btn" style="background:#6BCB77;color:white" onclick="exitQuiz()"> Dashboard</button><button class="btn btn-primary" onclick="retryQuiz()"> Retry</button></div></div></div></div>
+<script>
+const classes=["Nursery 1","Nursery 2","Nursery 3","Primary 1","Primary 2","Primary 3","Primary 4","Primary 5","Primary 6"];
+const questionBanks={};
+function shuffleOpt(arr,correct){let set=[...new Set(arr)];if(!set.includes(correct))set[0]=correct;for(let i=set.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[set[i],set[j]]=[set[j],set[i]];}return set.slice(0,4);}
+function generateQuantQuestions(className){
+let qs=[];let level=className.includes('Nursery')?1:parseInt(className.split(' ')[1]);
+for(let i=1;i<=50;i++){let q,a,b,c,d,ans;
+if(i<=10){let start=level*2+i;let step=level<=2?1:level<=4?2:3;q=`Find next number: ${start}, ${start+step}, ${start+step*2}, ${start+step*3}, ?`;ans=start+step*4;a=ans;b=ans+1;c=ans-1;d=ans+2;}
+else if(i<=20){let x=10+level*3+i;let y=5+level+i%5;if(i%2==0){q=`Mama bought ${x} oranges and gave out ${y}. How many left?`;ans=x-y;}else{q=`There are ${x} books and ${y} more added. Total?`;ans=x+y;}a=ans;b=ans+2;c=ans-2;d=ans+5;}
+else if(i<=30){let shapes=[{name:'Triangle',sides:3},{name:'Square',sides:4},{name:'Pentagon',sides:5},{name:'Hexagon',sides:6},{name:'Octagon',sides:8}];let s=shapes[i%5];if(i%2==0){q=`How many sides does a ${s.name} have?`;ans=s.sides;a=3;b=4;c=s.sides;d=6;}else{q=`If you have ${s.sides} apples and double them?`;ans=s.sides*2;a=ans;b=ans+1;c=ans-1;d=ans+2;}}
+else if(i<=40){let m=2+(level%4);let n=3+(i%6);q=`${m} x ${n} = ?`;ans=m*n;a=ans;b=ans+3;c=ans-3;d=ans+2;}
+else{let base=level*5+i;q=`What is half of ${base*2}?`;ans=base;a=ans;b=ans*2;c=ans+5;d=ans-5;}
+qs.push({q,options:shuffleOpt([a,b,c,d],ans),answer:ans,id:i});}return qs;
+}
+function generateVerbalQuestions(className){
+let qs=[];const analogies=[{q:"Cat is to Kitten as Dog is to ?",o:["Puppy","Cub","Calf","Foal"],ans:"Puppy"},{q:"Bird is to Nest as Man is to ?",o:["House","Tree","Sky","Cave"],ans:"House"},{q:"Book is to Read as Pen is to ?",o:["Write","Draw","Paper","Ink"],ans:"Write"},{q:"Doctor is to Hospital as Teacher is to ?",o:["School","Class","Pupil","Book"],ans:"School"},{q:"Hand is to Glove as Foot is to ?",o:["Sock","Shoe","Leg","Toe"],ans:"Shoe"},{q:"Water is to Drink as Food is to ?",o:["Eat","Cook","Plate","Hunger"],ans:"Eat"},{q:"Sun is to Day as Moon is to ?",o:["Night","Stars","Sky","Light"],ans:"Night"},{q:"Car is to Road as Boat is to ?",o:["Water","Sail","River","Harbour"],ans:"Water"}];
+for(let i=1;i<=50;i++){let q,opts,ans;
+if(i<=15){let item=analogies[(i-1)%analogies.length];q=item.q;opts=item.o;ans=item.ans;}
+else if(i<=30){if(i%3==0){q=`Find next letter: A, B, C, D, ?`;opts=["E","F","G","H"];ans="E";}else if(i%3==1){let code=65+(i%26);let letter=String.fromCharCode(code);let next=String.fromCharCode(code+1>90?65:code+1);q=`Which letter comes after ${letter}?`;opts=[next,"Z","A","B"];ans=next;}else{q=`A B C D E F G - What is 5th letter?`;opts=["E","D","F","G"];ans="E";}}
+else if(i<=40){let groups=[{q:"Odd one out: Apple, Orange, Banana, Car",o:["Car","Apple","Orange","Banana"],ans:"Car"},{q:"Odd one out: Dog, Cat, Goat, Book",o:["Book","Dog","Cat","Goat"],ans:"Book"},{q:"Which is not a colour? Red, Blue, Book, Green",o:["Book","Red","Blue","Green"],ans:"Book"}];let g=groups[(i-1)%groups.length];q=g.q;opts=g.o;ans=g.ans;}
+else{let vocabs=[{q:"Happy means ?",o:["Joyful","Sad","Angry","Tired"],ans:"Joyful"},{q:"Big is opposite of ?",o:["Small","Large","Huge","Tall"],ans:"Small"},{q:"Fast means ?",o:["Quick","Slow","Late","Tired"],ans:"Quick"},{q:"Cold is opposite of ?",o:["Hot","Cool","Warm","Ice"],ans:"Hot"},{q:"Begin means ?",o:["Start","End","Stop","Finish"],ans:"Start"}];let v=vocabs[(i-1)%vocabs.length];q=v.q;opts=v.o;ans=v.ans;}
+qs.push({q,options:opts,answer:ans,id:i});}return qs;
+}
+classes.forEach(cls=>{questionBanks[cls]={quantitative:generateQuantQuestions(cls),verbal:generateVerbalQuestions(cls)};});
+let currentClass="Primary 3";let currentUser="Happiness";let currentSubject="quantitative";let currentMode="practice";let currentQuestions=[];let currentIndex=0;let answers={};let history=JSON.parse(localStorage.getItem('smartkiddies_history_v2')||"[]");
+function startApp(){currentUser=document.getElementById('nameInput').value||"Happiness";currentClass=document.getElementById('classInput').value;document.getElementById('loginPage').classList.add('hidden');document.getElementById('mainApp').classList.remove('hidden');document.getElementById('userNameLabel').innerText=currentUser;document.getElementById('userClassLabel').innerText=currentClass;document.getElementById('currentClassDisplay').innerText=currentClass;renderClassGrid();updatePerformance();}
+function renderClassGrid(){const grid=document.getElementById('classGrid');grid.innerHTML="";classes.forEach(cls=>{let div=document.createElement('div');div.className="class-item"+(cls===currentClass?" active":"");div.innerHTML=`<div style="font-size:24px">${cls.includes('Nursery')?'':''}</div><b>${cls}</b><br><small>100 Qs</small>`;div.onclick=()=>{currentClass=cls;document.getElementById('currentClassDisplay').innerText=cls;document.getElementById('userClassLabel').innerText=cls;renderClassGrid();};grid.appendChild(div);});}
+function switchClass(){let n=prompt("Enter class: Nursery 1-3, Primary 1-6",currentClass);if(n&&classes.includes(n)){currentClass=n;document.getElementById('currentClassDisplay').innerText=currentClass;document.getElementById('userClassLabel').innerText=currentClass;renderClassGrid();}}
+function logout(){location.reload();}
+function startQuiz(subject,mode){currentSubject=subject;currentMode=mode;let bank=questionBanks[currentClass][subject];if(mode==='practice'){currentQuestions=bank.slice(0,5);}else{currentQuestions=[...bank.slice(5,50)].sort(()=>0.5-Math.random());}currentIndex=0;answers={};document.getElementById('mainApp').classList.add('hidden');document.getElementById('quizPage').classList.remove('hidden');document.getElementById('resultPage').classList.add('hidden');document.getElementById('quizTitle').innerText=`${currentClass} - ${subject} - ${mode} (${currentQuestions.length}Qs)`;document.getElementById('quizModeBadge').innerText=mode.toUpperCase()+` - ${currentQuestions.length}Qs - NO REPEAT`;renderQuestion();}
+function renderQuestion(){let q=currentQuestions[currentIndex];document.getElementById('quizProgressText').innerText=`Question ${currentIndex+1} of ${currentQuestions.length}`;document.getElementById('quizProgressBar').style.width=`${((currentIndex+1)/currentQuestions.length)*100}%`;let html=`<div class="question-box"><h3>Q${currentIndex+1}: ${q.q}</h3></div>`;q.options.forEach((opt,idx)=>{let sel=answers[currentIndex]===opt?' selected':'';html+=`<div class="option${sel}" onclick="selectOption('${opt.toString().replace(/'/g,"\\'")}')"><span style="background:#FFD93D;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800">${String.fromCharCode(65+idx)}</span> ${opt}</div>`;});document.getElementById('questionContainer').innerHTML=html;}
+function selectOption(opt){answers[currentIndex]=opt;renderQuestion();}
+function nextQuestion(){if(currentIndex<currentQuestions.length-1){currentIndex++;renderQuestion();}else{finishQuiz();}}
+function prevQuestion(){if(currentIndex>0){currentIndex--;renderQuestion();}}
+function exitQuiz(){document.getElementById('quizPage').classList.add('hidden');document.getElementById('resultPage').classList.add('hidden');document.getElementById('mainApp').classList.remove('hidden');updatePerformance();}
+function finishQuiz(){let correct=0;currentQuestions.forEach((q,i)=>{if(answers[i]&&answers[i].toString()===q.answer.toString())correct++;});let percent=Math.round((correct/currentQuestions.length)*100);let emoji="";let title="Excellent!";let remark="Excellent";if(percent>=80){emoji="";title="Excellent!";remark="Excellent";}else if(percent>=60){emoji="";title="Good Job!";remark="Good";}else if(percent>=40){emoji="";title="Keep Trying!";remark="Average";}else{emoji="";title="Needs Practice";remark="Needs Practice";}let record={date:new Date().toLocaleString(),class:currentClass,subject:currentSubject,mode:currentMode,score:percent,correct:correct,total:currentQuestions.length,remark:remark,name:currentUser};history.unshift(record);localStorage.setItem('smartkiddies_history_v2',JSON.stringify(history));document.getElementById('quizPage').classList.add('hidden');document.getElementById('resultPage').classList.remove('hidden');document.getElementById('resultEmoji').innerText=emoji;document.getElementById('resultTitle').innerText=title;document.getElementById('resultScore').innerText=`${percent}% (${correct}/${currentQuestions.length})`;document.getElementById('resultDetail').innerText=`${currentClass} - ${currentSubject} - ${currentMode} | ${remark} | Practice 5Qs ≠ Assessment 45Qs`;}
+function retryQuiz(){startQuiz(currentSubject,currentMode);}
+function updatePerformance(){if(history.length===0){document.getElementById('totalTests').innerText=0;document.getElementById('avgScore').innerText="0%";document.getElementById('bestScore').innerText="0%";return;}let total=history.length;let avg=Math.round(history.reduce((s,r)=>s+r.score,0)/total);let best=Math.max(...history.map(r=>r.score));document.getElementById('totalTests').innerText=total;document.getElementById('avgScore').innerText=avg+"%";document.getElementById('bestScore').innerText=best+"%";let html="";history.slice(0,20).forEach(r=>{let color=r.score>=80?"#6BCB77":r.score>=60?"#4D96FF":"#FF6B6B";html+=`<div class="history-item"><div><b>${r.class}</b> - ${r.subject} - ${r.mode} (${r.correct}/${r.total})<br><small>${r.date}</small></div><div style="background:${color};color:white;padding:6px 12px;border-radius:12px;font-weight:800">${r.score}% - ${r.remark}</div></div>`;});document.getElementById('historyList').innerHTML=html;}
+renderClassGrid();
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
