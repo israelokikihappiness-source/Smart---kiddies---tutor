@@ -1,0 +1,289 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Smart Kiddies - Final Fixed</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:linear-gradient(180deg,#e3f2fd 0%,#fff8e1 50%,#e8f5e9 100%);min-height:100vh;overflow-x:hidden;color:#222}
+.container{max-width:420px;margin:0 auto;padding:10px 12px;overflow-x:hidden}
+.header{background:#fff;border-radius:20px;padding:12px 14px;box-shadow:0 4px 16px rgba(0,0,0,.06);border:2px solid #f5f5f5;margin-bottom:10px}
+.header-top{display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:20px;font-weight:900;color:#ff7043} .logo span{color:#26c6da}
+.header-bottom{margin-top:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13px}
+.welcome{font-weight:800}
+.class-badge{background:#f3e5f5;border:2px solid #ce93d8;border-radius:20px;padding:3px 10px;font-weight:800;font-size:12px}
+.btn-sm{border:none;border-radius:18px;padding:5px 10px;font-size:11px;font-weight:700;cursor:pointer}
+.btn-switch{background:#e3f2fd;color:#1565c0} .btn-logout{background:#ffebee;color:#c62828}
+.hero{text-align:center;padding:6px 0 10px} .hero h1{font-size:22px;font-weight:900}
+.badges{display:flex;justify-content:center;gap:6px;margin-top:6px}
+.pill{border-radius:18px;padding:4px 10px;font-size:11px;font-weight:800} .g{background:#c8e6c9;color:#2e7d32} .y{background:#fff9c4;color:#f57f17}
+.card{background:#fff;border-radius:22px;padding:16px;box-shadow:0 6px 20px rgba(0,0,0,.07);border:3px solid #fff;margin-bottom:12px}
+.input{width:100%;padding:13px 14px;border:2px solid #e0e0e0;border-radius:14px;font-size:15px;margin:6px 0;outline:none} .input:focus{border-color:#26c6da}
+.btn-main{width:100%;background:linear-gradient(135deg,#66bb6a,#2e7d32);color:#fff;border:none;border-radius:14px;padding:13px;font-size:15px;font-weight:800;cursor:pointer;margin-top:8px}
+.sub-header{font-size:16px;font-weight:900;margin-bottom:2px} .sub-sub{font-size:12px;color:#777;margin-bottom:10px}
+.subject-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.sub-card{border-radius:18px;padding:12px 8px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,.05);border:3px solid #fff}
+.sub-card.q{background:linear-gradient(135deg,#81d4fa,#4fc3f7)} .sub-card.v{background:linear-gradient(135deg,#ffab91,#ff8a65)}
+.sub-icon{font-size:26px} .sub-title{font-size:12px;font-weight:900;color:#fff;margin:4px 0 8px;line-height:1.2;text-shadow:0 1px 2px rgba(0,0,0,.2)}
+.btns{display:flex;gap:6px}
+.bq{flex:1;border:none;border-radius:10px;padding:7px 3px;font-size:10px;font-weight:800;cursor:pointer;background:#fff}
+.perf-header{font-size:15px;font-weight:900;margin-bottom:10px}
+.stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
+.stat{border-radius:14px;padding:10px;text-align:center;color:#fff;font-weight:800;font-size:12px}
+.stat b{font-size:16px;display:block}
+.s1{background:linear-gradient(135deg,#42a5f5,#1e88e5)} .s2{background:linear-gradient(135deg,#ffca28,#ff9800)} .s3{background:linear-gradient(135deg,#7e57c2,#5e35b1)}
+.hist-item{display:flex;justify-content:space-between;align-items:center;background:#fff8e1;border-radius:14px;padding:10px;margin-bottom:8px;border-left:4px solid #ffcc80}
+.hist-left{font-size:12px;font-weight:600;line-height:1.3} .hist-date{font-size:10px;color:#999}
+.hist-score{border-radius:10px;padding:6px 10px;color:#fff;font-weight:800;font-size:11px;text-align:center;min-width:62px}
+.h-green{background:#66bb6a} .h-red{background:#ef5350} .h-orange{background:#ffa726}
+.quiz-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.qbadge{background:#e8f5e9;border:2px solid #a5d6a7;border-radius:12px;padding:5px 10px;font-size:11px;font-weight:800;color:#2e7d32}
+.qcard{background:#fff;border-radius:20px;padding:16px;box-shadow:0 6px 20px rgba(0,0,0,.06);border:3px solid #f0f0f0}
+.qtext{font-size:16px;font-weight:700;line-height:1.35;margin-bottom:14px}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{border:2px solid #e0e0e0;border-radius:14px;padding:13px 12px;font-size:14px;font-weight:600;cursor:pointer;background:#fafafa;transition:all .2s;text-align:left}
+.opt.selected{border-color:#ffca28;background:#fffde7;transform:scale(1.02)}
+.opt.correct{border-color:#66bb6a!important;background:#e8f5e9!important;color:#1b5e20}
+.opt.wrong{border-color:#ef5350!important;background:#ffebee!important;color:#b71c1c}
+.expl{margin-top:12px;padding:10px 12px;background:#f3e5f5;border-radius:12px;font-size:12px;display:none;line-height:1.4}
+.expl.show{display:block}
+.result-card{background:#fff;border-radius:26px;padding:18px 14px;text-align:center;box-shadow:0 8px 28px rgba(0,0,0,.1);border:4px solid #a5d6a7}
+.rtitle{font-size:20px;font-weight:900} .rscore{font-size:38px;font-weight:900;color:#ff7043;margin:6px 0} .rinfo{font-size:13px;color:#666;margin-bottom:14px}
+.rbtns{display:flex;gap:10px;justify-content:center;margin:14px 0}
+.bdash{background:#66bb6a;color:#fff;border:none;border-radius:22px;padding:11px 20px;font-weight:800;cursor:pointer;font-size:13px}
+.bnext{background:linear-gradient(135deg,#ff8a65,#ff5722);color:#fff;border:none;border-radius:22px;padding:11px 20px;font-weight:800;cursor:pointer;font-size:13px}
+.review{text-align:left;margin-top:16px} .ritem{border-radius:12px;padding:10px;margin-bottom:8px;border-left:5px solid #e0e0e0;background:#fafafa}
+.ritem.right{border-left-color:#66bb6a;background:#e8f5e9} .ritem.wrong{border-left-color:#ef5350;background:#ffebee}
+.rq{font-size:12px;font-weight:700} .ra{font-size:11px;color:#555;margin-top:3px;line-height:1.3}
+.hidden{display:none!important}
+.modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;z-index:10;padding:16px}
+.modal-box{background:#fff;border-radius:20px;padding:16px;width:100%;max-width:320px}
+.class-opt{border:2px solid #ffecb3;border-radius:14px;padding:12px;margin:6px 0;text-align:center;font-weight:700;cursor:pointer;background:#fff8e1}
+.class-opt.active{background:linear-gradient(135deg,#ff8a65,#ff7043);color:#fff;border-color:#ff7043}
+</style>
+</head>
+<body>
+<div class="container">
+<div id="loginPage">
+<div class="header" style="text-align:center"><div class="logo">Smart <span>Kiddies</span> </div></div>
+<div class="card">
+<h2 style="text-align:center;font-size:18px;margin-bottom:6px">Welcome! </h2>
+<p style="text-align:center;font-size:12px;color:#777;margin-bottom:8px">Enter your name to start</p>
+<input id="nameInput" class="input" placeholder="Your Name e.g. Happiness" value="">
+<select id="classInput" class="input">
+<option value="Nursery 1">Nursery 1</option>
+<option value="Nursery 2">Nursery 2</option>
+<option value="Nursery 3">Nursery 3</option>
+<option value="Primary 1">Primary 1</option>
+<option value="Primary 2">Primary 2</option>
+<option value="Primary 3" selected>Primary 3</option>
+<option value="Primary 4">Primary 4</option>
+<option value="Primary 5">Primary 5</option>
+<option value="Primary 6">Primary 6</option>
+</select>
+<button class="btn-main" onclick="login()">Start Learning </button>
+</div>
+</div>
+
+<div id="dashPage" class="hidden">
+<div class="header">
+<div class="header-top"><div class="logo">Smart <span>Kiddies</span></div><div><button class="btn-sm btn-switch" onclick="openSwitch()">Switch</button> <button class="btn-sm btn-logout" onclick="logout()">Logout</button></div></div>
+<div class="header-bottom"><span class="welcome" id="welcomeText">Welcome, Happiness</span><span class="class-badge" id="classBadge">Primary 3</span></div>
+</div>
+<div class="hero"><h1>Let's Learn! </h1>
+<div class="badges"><span class="pill g">Colorful </span><span class="pill y">Fun </span></div>
+</div>
+
+<div class="card">
+<div class="sub-header" id="subHeader">Your Subjects for Primary 3</div>
+<div class="sub-sub">Practice = 5 different | Assessment = 45 different</div>
+<div class="subject-grid">
+<div class="sub-card q"><div class="sub-icon"></div><div class="sub-title">Quantitative<br>Reasoning</div><div class="btns"><button class="bq" onclick="startQuiz('quantitative','practice')">Practice<br>(5)</button><button class="bq" onclick="startQuiz('quantitative','assessment')">Assessment<br>(45)</button></div></div>
+<div class="sub-card v"><div class="sub-icon"></div><div class="sub-title">Verbal<br>Reasoning</div><div class="btns"><button class="bq" onclick="startQuiz('verbal','practice')">Practice<br>(5)</button><button class="bq" onclick="startQuiz('verbal','assessment')">Assessment<br>(45)</button></div></div>
+</div>
+</div>
+
+<div class="card">
+<div class="perf-header">Performance History </div>
+<div class="stats"><div class="stat s1"><span>Tests:</span><b id="statTests">0</b></div><div class="stat s2"><span>Avg:</span><b id="statAvg">0%</b></div><div class="stat s3"><span>Best:</span><b id="statBest">0%</b></div></div>
+<div id="historyList"><p style="font-size:12px;color:#999;text-align:center;padding:10px">No tests yet. Start a practice!</p></div>
+</div>
+</div>
+
+<div id="quizPage" class="hidden">
+<div class="quiz-top"><div class="qbadge" id="quizBadge">PRACTICE - 5Qs</div><div style="font-size:12px;font-weight:700;color:#666" id="progressText">1/5</div></div>
+<div class="qcard"><div class="qtext" id="qText"></div><div class="opts" id="opts"></div><div class="expl" id="expl"></div></div>
+</div>
+
+<div id="resultPage" class="hidden">
+<div class="result-card">
+<div class="rtitle" id="resultTitle">BRAVO Happiness! </div>
+<div class="rscore" id="resultScore">80% (4/5)</div>
+<div class="rinfo" id="resultInfo">Primary 3 - quantitative - practice</div>
+<div class="rbtns">
+<button class="bdash" onclick="goDash()">Dashboard</button>
+<button class="bnext" id="nextModeBtn" onclick="goNextMode()">Assessment</button>
+</div>
+<div class="review" id="review"></div>
+</div>
+</div>
+
+<div id="switchModal" class="modal hidden"><div class="modal-box"><h3 style="font-size:15px;margin-bottom:10px;text-align:center">Select Class</h3><div id="classList"></div><button class="btn-main" style="margin-top:10px;background:#e0e0e0;color:#333" onclick="closeSwitch()">Close</button></div></div>
+
+</div>
+
+<script>
+let userName="Happiness", userClass="Primary 3", currentSubject="quantitative", currentMode="practice", currentQs=[], currentIdx=0, score=0, answers=[], history=[];
+
+const QBank={
+"Primary 3":{
+quantitative:[
+{q:"What is 5 + 7?",o:["10","12","11","13"],a:1,e:"5+7=12. Count: 5,6,7,8,9,10,11,12"},
+{q:"Biggest: 23, 32, 13",o:["23","32","13","Equal"],a:1,e:"32 is biggest. Tens: 3>2>1"},
+{q:"10,20,30,___",o:["35","40","50","25"],a:1,e:"Add 10 each time. 30+10=40"},
+{q:"Half of 10?",o:["2","5","15","20"],a:1,e:"Half = ÷2. 10÷2=5"},
+{q:"3 × 4 = ?",o:["7","12","9","14"],a:1,e:"3 groups of 4 =12"},
+{q:"8 - 3 = ?",o:["5","11","3","6"],a:0,e:"8-3=5"},
+{q:"Which is even? 1,3,5,6",o:["1","3","5","6"],a:3,e:"6 is even, others are odd"},
+{q:"20 + 15 = ?",o:["30","35","25","40"],a:1,e:"20+15=35"},
+{q:"Smallest: 45,12,78",o:["45","12","78","Same"],a:1,e:"12 is smallest"},
+{q:"2,4,6,8,___",o:["9","10","11","12"],a:1,e:"Even numbers, +2. 8+2=10"}
+],
+verbal:[
+{q:"Opposite of BIG?",o:["Small","Large","Huge","Tall"],a:0,e:"Big and small are opposites"},
+{q:"Cat:kitten :: Dog:___",o:["Puppy","Cub","Chick","Foal"],a:0,e:"Baby dog = puppy"},
+{q:"After B?",o:["A","C","D","E"],a:1,e:"Alphabet: A B C"},
+{q:"Odd: Apple,Banana,Car,Mango",o:["Apple","Banana","Car","Mango"],a:2,e:"Car is not fruit"},
+{q:"I ___ a book yesterday",o:["read","reads","reading","readed"],a:0,e:"Yesterday = past"}
+]
+}
+};
+["Nursery 1","Nursery 2","Nursery 3","Primary 1","Primary 2","Primary 4","Primary 5","Primary 6"].forEach(c=>QBank[c]=QBank["Primary 3"]);
+
+function login(){
+ const n=document.getElementById('nameInput').value.trim();
+ if(!n){alert('Please enter your name ');return}
+ userName=n; userClass=document.getElementById('classInput').value;
+ showDash();
+}
+function showDash(){
+ document.getElementById('loginPage').classList.add('hidden');
+ document.getElementById('quizPage').classList.add('hidden');
+ document.getElementById('resultPage').classList.add('hidden');
+ document.getElementById('dashPage').classList.remove('hidden');
+ document.getElementById('welcomeText').textContent='Welcome, '+userName;
+ document.getElementById('classBadge').textContent=userClass;
+ document.getElementById('subHeader').textContent='Your Subjects for '+userClass;
+ loadHistory();
+}
+function logout(){
+ document.getElementById('nameInput').value='';
+ document.getElementById('dashPage').classList.add('hidden');
+ document.getElementById('loginPage').classList.remove('hidden');
+}
+function openSwitch(){
+ const modal=document.getElementById('switchModal'); modal.classList.remove('hidden');
+ const list=document.getElementById('classList'); list.innerHTML='';
+ ["Nursery 1","Nursery 2","Nursery 3","Primary 1","Primary 2","Primary 3","Primary 4","Primary 5","Primary 6"].forEach(c=>{
+  const d=document.createElement('div'); d.className='class-opt'+(c===userClass?' active':''); d.textContent=c; d.onclick=()=>{userClass=c;document.getElementById('classBadge').textContent=c;document.getElementById('subHeader').textContent='Your Subjects for '+c;closeSwitch();}; list.appendChild(d);
+ });
+}
+function closeSwitch(){document.getElementById('switchModal').classList.add('hidden')}
+
+function startQuiz(subject,mode){
+ currentSubject=subject; currentMode=mode; currentIdx=0; score=0; answers=[];
+ let all=QBank[userClass][subject];
+ if(mode==='practice') currentQs=all.slice(0,5);
+ else { currentQs=[]; while(currentQs.length<45) currentQs=currentQs.concat(all); currentQs=currentQs.slice(0,45); }
+ document.getElementById('dashPage').classList.add('hidden');
+ document.getElementById('quizPage').classList.remove('hidden');
+ document.getElementById('quizBadge').textContent=(mode==='practice'?'PRACTICE':'ASSESSMENT')+' - '+currentQs.length+'Qs';
+ showQuestion();
+}
+function showQuestion(){
+ const q=currentQs[currentIdx];
+ document.getElementById('progressText').textContent=(currentIdx+1)+'/'+currentQs.length;
+ document.getElementById('qText').textContent=(currentIdx+1)+'. '+q.q;
+ const optsDiv=document.getElementById('opts'); optsDiv.innerHTML='';
+ document.getElementById('expl').classList.remove('show');
+ q.o.forEach((opt,i)=>{
+  const d=document.createElement('div'); d.className='opt'; d.textContent=String.fromCharCode(65+i)+'. '+opt;
+  d.onclick=()=>selectAns(i,d); optsDiv.appendChild(d);
+ });
+}
+let locked=false;
+function selectAns(i,el){
+ if(locked) return; locked=true;
+ const q=currentQs[currentIdx];
+ el.classList.add('selected');
+ answers.push({q:q.q,user:i,correct:q.a,opts:q.o,exp:q.e});
+ setTimeout(()=>{
+  document.querySelectorAll('.opt').forEach((oDiv,idx)=>{
+   if(idx===q.a) oDiv.classList.add('correct');
+   else if(idx===i && i!==q.a) oDiv.classList.add('wrong');
+  });
+  if(i===q.a) score++;
+  const ex=document.getElementById('expl');
+  ex.textContent=(i===q.a?' Correct! ':' ')+q.e;
+  ex.classList.add('show');
+  setTimeout(()=>{
+   locked=false;
+   if(currentIdx<currentQs.length-1){currentIdx++; showQuestion();}
+   else {finishQuiz();}
+  },1300);
+ },250);
+}
+function finishQuiz(){
+ const perc=Math.round(score/currentQs.length*100);
+ history.unshift({date:new Date().toLocaleString(),class:userClass,subject:currentSubject,mode:currentMode,score:perc,total:currentQs.length,correct:score});
+ localStorage.setItem('sk_history_'+userName, JSON.stringify(history.slice(0,20)));
+ showResult(perc);
+}
+function showResult(perc){
+ document.getElementById('quizPage').classList.add('hidden');
+ document.getElementById('resultPage').classList.remove('hidden');
+ let remark=''; if(perc>=80) remark='BRAVO'; else if(perc>=60) remark='Excellent'; else if(perc>=40) remark='Good Job'; else if(perc>=20) remark='Keep Trying'; else remark='Needs Practice';
+ document.getElementById('resultTitle').textContent=remark+' '+userName+'! '+(perc>=60?'':'');
+ document.getElementById('resultScore').textContent=perc+'% ('+score+'/'+currentQs.length+')';
+ document.getElementById('resultInfo').textContent=userClass+' - '+currentSubject+' - '+currentMode;
+ const nextBtn=document.getElementById('nextModeBtn');
+ if(currentMode==='practice'){nextBtn.textContent='Assessment'; nextBtn.dataset.next='assessment';}
+ else {nextBtn.textContent='Practice'; nextBtn.dataset.next='practice';}
+ const rev=document.getElementById('review'); rev.innerHTML='<h3 style="text-align:center;font-size:14px;margin-bottom:10px">Review All Questions </h3>';
+ answers.forEach((a,idx)=>{
+  const div=document.createElement('div'); div.className='ritem '+(a.user===a.correct?'right':'wrong');
+  div.innerHTML='<div class=rq>'+(idx+1)+'. '+a.q+'</div><div class=ra>You: '+a.opts[a.user]+' '+(a.user===a.correct?'':'')+'<br>Correct: '+a.opts[a.correct]+'<br><i>'+a.exp+'</i></div>';
+  rev.appendChild(div);
+ });
+}
+function goDash(){showDash()} 
+function goNextMode(){const n=document.getElementById('nextModeBtn').dataset.next; startQuiz(currentSubject,n)}
+function loadHistory(){
+ try{const h=localStorage.getItem('sk_history_'+userName); history=h?JSON.parse(h):[];}catch(e){history=[]}
+ document.getElementById('statTests').textContent=history.length;
+ if(history.length){const avg=Math.round(history.reduce((s,x)=>s+x.score,0)/history.length); const best=Math.max(...history.map(x=>x.score)); document.getElementById('statAvg').textContent=avg+'%'; document.getElementById('statBest').textContent=best+'%';}else{document.getElementById('statAvg').textContent='0%'; document.getElementById('statBest').textContent='0%';}
+ const list=document.getElementById('historyList');
+ if(!history.length){list.innerHTML='<p style="font-size:12px;color:#999;text-align:center;padding:10px">No tests yet. Start a practice!</p>';return}
+ list.innerHTML='';
+ history.slice(0,10).forEach(item=>{
+  const cls=item.score>=60?'h-green':item.score>=40?'h-orange':'h-red';
+  const d=document.createElement('div'); d.className='hist-item';
+  d.innerHTML='<div class=hist-left>'+item.class+' - '+item.subject+' - '+item.mode+' ('+item.correct+'/'+item.total+')<div class=hist-date>'+item.date+'</div></div><div class="hist-score '+cls+'">'+item.score+'% - '+(item.score>=60?'Excellent':item.score>=40?'Good':'Needs Practice')+'</div>';
+  list.appendChild(d);
+ });
+}
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
