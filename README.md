@@ -9,7 +9,8 @@ Features:
 - Class Selection: Nursery 1, Nursery 2, Primary 1-6
 - Subjects: Quantitative Reasoning, Verbal Reasoning  
 - Modes: Practice (with explanations) and Assessment (final score)
-- 50 Questions per assessment
+- 50 Questions structure
+- 5 practice (learning mode with explanations) + 45 assessment (exam mode)
 - Performance History with real scores
 - Question Review
 
